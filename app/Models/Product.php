@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Collection;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
@@ -37,11 +36,6 @@ class Product extends Model
     public function getUrl(): string
     {
         return route('product', $this->slug);
-    }
-
-    public static function getCartProducts(): Collection
-    {
-        return self::query()->whereIn('id', array_keys((array)$_COOKIE['cart_products']))->get();
     }
 
     public function getPicture(): string

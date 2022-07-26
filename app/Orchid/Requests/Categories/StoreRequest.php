@@ -1,29 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Requests\Categories;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Orchid\Requests\Request;
+use Str;
 
-class StoreRequest extends FormRequest
+class StoreRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
             'title'       => 'required',
-            'slug'        => 'required|unique:categories,slug',
+            'slug'        => 'nullable|unique:categories,slug',
             'description' => 'nullable',
-            'priority'    => 'nullable',
+            'priority'    => 'nullable|numeric',
             'is_active'   => 'nullable|boolean',
         ];
     }
 
     public function getData(): array
     {
-        return $this->validated();
+        return $this->validatedWithDefault([
+            'priority' => 0,
+            'slug'     => Str::slug($this->get('title'))
+        ]);
     }
 }

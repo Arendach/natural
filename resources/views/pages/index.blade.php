@@ -37,7 +37,7 @@
                                         alt="{{ $product->title }}"
                                 >
                             </a>
-                            <h3 class="product-name">{{ $product->name }}</h3>
+                            <h3 class="product-name">{{ $product->title }}</h3>
 
                             <div class="product-cat-footer">
                                 <div class="product-cat-price">

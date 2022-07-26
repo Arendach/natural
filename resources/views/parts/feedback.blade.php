@@ -1,6 +1,6 @@
 <div data-toggle="modal" data-target="#feedback" class="feedback-open">
     <i class="fa fa-phone"></i>
-    <span class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">Перезвоните мне</span>
+    <span class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">Перетелефонуйте мені</span>
 </div>
 
 <!-- Modal -->
@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="cartTitle">Перезвоните мне</h5>
+                <h5 class="modal-title" id="cartTitle">Перетелефонуйте мені</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,24 +18,39 @@
                 <form action="{{ route('feedback.create') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <label>
-                            <i class="text-danger">*</i> Ваше имя
+                        <label for="feedback-name">
+                            <i class="text-danger">*</i> Ваше імя
                         </label>
-                        <input required class="form-control form-control-sm" name="name">
+                        <input
+                                id="feedback-name"
+                                required class="form-control form-control-sm"
+                                name="name"
+                                maxlength="255"
+                        >
                     </div>
                     <div class="form-group">
-                        <label>
-                            <i class="text-danger">*</i> Телефон
+                        <label for="feedback-phone">
+                            <i class="text-danger">*</i> Ваш номер телефону
                         </label>
-                        <input pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required
-                               class="form-control form-control-sm" name="phone">
+                        <input
+                                id="feedback-phone"
+                                pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$"
+                                required
+                                class="form-control form-control-sm"
+                                name="phone"
+                        >
                     </div>
                     <div class="form-group">
-                        <label>Сообщение</label>
-                        <textarea class="form-control form-control-sm" name="message"></textarea>
+                        <label for="feedback-message">Ваш коментар (не обов'язково)</label>
+                        <textarea
+                                maxlength="3000"
+                                id="feedback-message"
+                                class="form-control form-control-sm"
+                                name="message"
+                        ></textarea>
                     </div>
                     <div class="form-group mb-0">
-                        <button class="btn btn-sm btn-primary">Отправить</button>
+                        <button class="btn btn-sm btn-primary">Відправити заявку</button>
                     </div>
                 </form>
             </div>

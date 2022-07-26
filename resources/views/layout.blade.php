@@ -108,7 +108,7 @@
 
 @include('parts.feedback')
 
-<a href="#" style="z-index: 2" class="scrollup">До верху</a>
+<a href="#" style="z-index: 2" class="scrollup"></a>
 
 <script src="{{ asset('js/app.js') }}"></script>
 

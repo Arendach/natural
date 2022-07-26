@@ -9,3 +9,5 @@ package-lock.json
 .idea
 public/photos
 public/mix-manifest.json
+public/css
+public/js

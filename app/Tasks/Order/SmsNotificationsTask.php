@@ -17,7 +17,7 @@ class SmsNotificationsTask
 
     private function sendCustomer(Order $order): void
     {
-        sendSms($order->phone, settings('sms.template'), 'Оповещеие об заказе №' . $id);
+        sendSms($order->phone, "Ваше замовлення №$order->id приняте! Очікуйте дзвінка!");
     }
 
     private function sendAdmin(Order $order): void

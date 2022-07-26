@@ -1,27 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Requests\Categories;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Orchid\Requests\Request;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class UpdateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
             'category.id'          => 'required|exists:categories,id',
             'category.title'       => 'required',
-            'category.slug'        => [
-                'required',
-                'max:255',
-                Rule::unique('categories', 'slug')->ignore($this->input('category.id'))
-            ],
+            'category.slug'        => ['required', 'max:255', Rule::unique('categories', 'slug')->ignore($this->input('category.id'))],
             'category.description' => 'nullable',
             'category.priority'    => 'nullable|integer',
             'category.is_active'   => 'nullable|boolean',
@@ -37,7 +30,10 @@ class UpdateRequest extends FormRequest
 
     public function getData(): array
     {
-        return $this->input('category');
+        return $this->inputWithDefault('category', [
+            'priority'  => 0,
+            'is_active' => false,
+        ]);
     }
 
     public function getSeo(): array

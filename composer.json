@@ -50,12 +50,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "helpers/auth.php",
-            "helpers/dates.php",
             "helpers/deprecated.php",
-            "helpers/filesystem.php",
-            "helpers/main.php",
-            "helpers/math.php"
+            "helpers/main.php"
         ]
     },
     "autoload-dev": {

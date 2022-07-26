@@ -7,7 +7,7 @@ namespace App\Orchid\Screens\Catalog;
 use App\Models\Category;
 use App\Models\Product;
 use App\Orchid\Requests\Products\StoreRequest;
-use App\Orchid\Requests\Categories\UpdateRequest;
+use App\Orchid\Requests\Products\UpdateRequest;
 use App\Orchid\ScreenAbstract;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -80,22 +80,22 @@ class ProductsScreen extends ScreenAbstract
 
     public function store(StoreRequest $request): void
     {
-        $category = Product::create($request->getData());
+        $product = Product::create($request->getData());
 
-        $category->seo()->updateOrCreate([], []);
+        $product->seo()->updateOrCreate([], []);
 
         Toast::info('Товар вдало створений');
     }
 
     public function update(UpdateRequest $request): void
     {
-        $category = Category::findOrFail($request->input('category.id'));
+        $product = Product::findOrFail($request->input('product.id'));
 
-        $category->update($request->getData());
+        $product->update($request->getData());
 
-        $category->seo()->updateOrCreate([], $request->getSeo());
+        $product->seo()->updateOrCreate([], $request->getSeo());
 
-        Toast::info('Категорія оновлена');
+        Toast::info('Товар вдало відредагований');
     }
 
     public function table(): Table
@@ -106,6 +106,10 @@ class ProductsScreen extends ScreenAbstract
                 ->filter(),
 
             TD::make('title', 'Назва')
+                ->sort()
+                ->filter(),
+
+            TD::make('price', 'Ціна')
                 ->sort()
                 ->filter(),
 
@@ -153,6 +157,7 @@ class ProductsScreen extends ScreenAbstract
     {
         return Layout::modal('edit', Layout::tabs([
             'Основна інформація' => Layout::rows([
+                Input::make('product.id')->hidden(),
                 Input::make('product.title')->title('Назва')->required(),
                 Input::make('product.slug')->title('Slug')->required(),
                 Input::make('product.price')->title('Ціна')->required()->value(0),
@@ -160,7 +165,7 @@ class ProductsScreen extends ScreenAbstract
                 Select::make('product.category_id')->title('Категорія')->options($this->getCategories())->required(),
                 Input::make('product.priority')->title('Пріоритет')->value(0),
                 Picture::make('product.picture')->title('Фото')->targetRelativeUrl(),
-                TextArea::make('product.shor_description')->title('Короткий опис'),
+                TextArea::make('product.short_description')->title('Короткий опис'),
                 Quill::make('product.description')->title('Опис'),
                 CheckBox::make('product.is_active')->placeholder('Активний')->sendTrueOrFalse(),
                 CheckBox::make('product.is_storage')->placeholder('Є в наявності')->sendTrueOrFalse(),
@@ -183,7 +188,7 @@ class ProductsScreen extends ScreenAbstract
     {
         return Layout::modal('create', Layout::rows([
             Input::make('title')->title('Назва')->required(),
-            Input::make('slug')->title('Slug')->required(),
+            Input::make('slug')->title('Slug'),
             Input::make('price')->title('Ціна')->required()->value(0),
             Input::make('discount')->title('Знижка(грн)'),
             Select::make('category_id')->title('Категорія')->options($this->getCategories())->required(),

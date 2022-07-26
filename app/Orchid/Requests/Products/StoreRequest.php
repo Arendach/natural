@@ -1,22 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Requests\Products;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Orchid\Requests\Request;
+use Str;
 
-class StoreRequest extends FormRequest
+class StoreRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
             'title'             => 'required|max:255',
-            'slug'              => 'required|unique:products,slug|max:255',
-            'price'             => 'required|numeric',
+            'slug'              => 'nullable|unique:products,slug|max:255',
+            'price'             => 'nullable|numeric',
             'discount'          => 'nullable|numeric',
             'short_description' => 'nullable',
             'description'       => 'nullable',
@@ -30,6 +28,11 @@ class StoreRequest extends FormRequest
 
     public function getData(): array
     {
-        return $this->validated();
+        return $this->validatedWithDefault([
+            'slug'     => Str::slug($this->get('title')),
+            'price'    => 0,
+            'discount' => 0,
+            'priority' => 0,
+        ]);
     }
 }
