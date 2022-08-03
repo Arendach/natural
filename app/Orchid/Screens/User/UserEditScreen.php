@@ -23,18 +23,8 @@ use Orchid\Support\Facades\Toast;
 
 class UserEditScreen extends Screen
 {
-    /**
-     * @var User
-     */
-    public $user;
+    public User $user;
 
-    /**
-     * Query data.
-     *
-     * @param User $user
-     *
-     * @return array
-     */
     public function query(User $user): iterable
     {
         $user->load(['roles']);
@@ -45,29 +35,16 @@ class UserEditScreen extends Screen
         ];
     }
 
-    /**
-     * Display header name.
-     *
-     * @return string|null
-     */
     public function name(): ?string
     {
-        return $this->user->exists ? 'Edit User' : 'Create User';
+        return $this->user->exists ? 'Редагування користувача' : 'Новий користувач';
     }
 
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
     public function description(): ?string
     {
-        return 'Details such as name, email and password';
+        return 'Деталі, імя, пароль, електронна пошта';
     }
 
-    /**
-     * @return iterable|null
-     */
     public function permission(): ?iterable
     {
         return [
@@ -75,11 +52,6 @@ class UserEditScreen extends Screen
         ];
     }
 
-    /**
-     * Button commands.
-     *
-     * @return Action[]
-     */
     public function commandBar(): iterable
     {
         return [

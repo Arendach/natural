@@ -25,32 +25,27 @@
     <div class="container-fluid">
         <div class="row top-head">
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 align-self-center centered">
-                {!! setting('main.address') !!}
+                {!! setting('Адреса') !!}
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 align-self-center">
-                <a target="_blank" href="tel:{!! preg_replace('/\,/', '<br>', setting('main.phone')) !!}">
-                    <i class="fa fa-phone"></i> {!! preg_replace('/\,/', '<br>', setting('main.phone')) !!}
-                </a><br>
-                <a target="_blank" href="tel:+3800994170135">
-                    <i class="fa fa-phone"></i> +38 ‎(098) 417-01-35
-                </a><br>
-                <a target="_blank" href="tel:+3800994170135">
-                    <i class="fa fa-phone"></i> +38 ‎(099) 417-01-35
-                </a><br>
-                <a target="_blank" href="https://api.whatsapp.com/send?phone=380632479135">
+                <a target="_blank" href="tel:{{ clearPhone(setting('Номер телефону')) }}">
+                    <i class="fa fa-phone"></i> {{ setting('Номер телефону') }}
+                </a>
+                <br>
+                <a target="_blank" href="https://api.whatsapp.com/send?phone={{ clearPhone(setting('Номер телефону')) }}">
                     <i class="fa fa-whatsapp"></i> WhatsApp
                 </a>
                 <br>
-                <a target="_blank" href="viber://chat?number=+380632479135">
+                <a target="_blank" href="viber://chat?number={{ clearPhone(setting('Номер телефону')) }}">
                     <i class="fa fa-whatsapp"></i> Viber
-                </a><br>
-
+                </a>
+                <br>
                 <a target="_blank" href="https://t.me/zakaz_sharov_vozdushno">
                     <i class="fa fa-telegram"></i> Telegram
                 </a>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 align-self-center">
-                {!! preg_replace('/\,/', '<br>', setting('main.schedule')) !!}
+                {!! preg_replace('/\,/', '<br>', setting('Графік роботи')) !!}
             </div>
         </div>
 
@@ -84,8 +79,8 @@
                     @foreach($categories as $categoryItem)
                         @continue(!$categoryItem->products_count)
                         <li>
-                            <a href="{{ $categoryItem->url }}">
-                                {{ $categoryItem->name }}
+                            <a href="{{ $categoryItem->getUrl() }}">
+                                {{ $categoryItem->title }}
                             </a>
                         </li>
                     @endforeach
@@ -104,13 +99,7 @@
     {!! setting('Копірайт в футері') !!}
 </footer>
 
-@include('parts.cart')
-
-@include('parts.feedback')
-
 <a href="#" style="z-index: 2" class="scrollup"></a>
-
-<script src="{{ asset('js/app.js') }}"></script>
 
 @yield('js')
 

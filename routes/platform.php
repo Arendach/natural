@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\Base\SettingsScreen;
 use App\Orchid\Screens\Catalog\CategoriesScreen;
 use App\Orchid\Screens\Catalog\ProductsScreen;
+use App\Orchid\Screens\Client\OrdersScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -106,3 +108,15 @@ Route::screen('products', ProductsScreen::class)
             ->parent('platform.index')
             ->push('Товари', route('platform.products'));
     });
+
+Route::screen('settings', SettingsScreen::class)
+    ->name('platform.settings')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Налаштування', route('platform.settings'));
+    });
+
+Route::screen('orders', OrdersScreen::class)
+    ->name('platform.orders')
+    ->breadcrumbs(fn(Trail $trail) => $trail->parent('platform.index')->push('Замовлення', 'platform.orders'));

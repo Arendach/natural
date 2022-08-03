@@ -1,89 +1,82 @@
+// закрити корзину якщо там пусто
+function closeCartIfEmpty() {
+    if ($('.products tbody').height() === 0) {
+        $('#cart').modal('hide')
+        $('.cart-open').fadeOut()
+    }
+}
+
+// підрахунок суми, оновлення cookies
+function resetCookie() {
+    let ids = {}
+    let count = 0
+    let order_sum = 0
+
+    $('.products .product').each(function () {
+        ids[$(this).data('id')] = $(this).find('.product_amount').text();
+        count += +$(this).find('.product_amount').text();
+        order_sum += +filterFloat($(this).find('.product_price').text());
+    });
+
+    $('.order_sum').text(number_format(order_sum, 2, '.', ',') + ' грн')
+    $('.cart-count').text(count);
+    $.cookie('cart_products', JSON.stringify(ids), {path: '/'});
+}
+
+// відкрити корзину по кліку
+$(document).on('click', '.cart-open', () => $('.cart-open').fadeOut())
+
+// якщо корзина порожня то сховати значок
+$(document).on('hidden.bs.modal', '#cart', () => +$('.cart-count').text() !== 0 ? $('.cart-open').fadeIn() : null)
+
+// додати товар до корзини
+$(document).on('click', '.to_cart', function () {
+    let data = $(this).data('data')
+
+    function create_row(name, id, photo, price) {
+        $('#cart .products').append('<tr class="product" data-id="' + id + '">' +
+            '<td style="border-top: none" class="product_photo"><img width="70px" height="70px" src="' + photo + '" alt="image"></td>' +
+            '<td style="border-top: none; vertical-align: middle; font-weight: bolder" class="product_name">' + name + '</td>' +
+            '<td style="border-top: none;vertical-align: middle;text-align: right;">' +
+            '<span class="minus_cart action_cart">-</span>' +
+            '<span class="product_amount">1</span>' +
+            '<span class="plus_cart action_cart">+</span>' +
+            '</td>' +
+            '<td style="border-top: none;vertical-align: middle;text-align: right;">' +
+            '<span class="product_price">' +
+            '' + price + '' +
+            '</span> грн' +
+            '<span class="un_cart">x</span>' +
+            '</td>' +
+            '</tr>');
+
+        $('.products').removeClass('none');
+    }
+
+    function add_amount(id, price) {
+        var $row = $('.product[data-id=' + id + ']');
+        var now = $row.find('.product_amount').text();
+        $row.find('.product_amount').text(+now + 1);
+        var $product_price = $row.find('.product_price');
+        var now_price = $product_price.text();
+        $product_price.text(number_format((+filterFloat(now_price) + +price), 2, '.', ','));
+    }
+
+    if ($('.product[data-id=' + data.id + ']').length === 0)
+        create_row(data.name, data.id, data.photo, data.price);
+    else
+        add_amount(data.id, data.price);
+
+
+    $('.cart-open').fadeIn();
+
+    resetCookie();
+
+});
+
+
 $(document).ready(function () {
-
-    var $body = $('body');
-
     $("#phone").mask('999-999-99-99')
-
-    // закрити корзину якщо там пусто
-    function is_close_cart() {
-        if ($('.products tbody').height() === 0) {
-            $('#cart').modal('hide');
-            $('.cart-open').fadeOut();
-        }
-    }
-
-    // підрахунок суми, оновлення куків
-    function reset_cookie() {
-        var ids = {};
-        var count = 0;
-        var order_sum = 0;
-
-        $('.products .product').each(function () {
-            ids[$(this).data('id')] = $(this).find('.product_amount').text();
-            count += +$(this).find('.product_amount').text();
-            order_sum += +filterFloat($(this).find('.product_price').text());
-        });
-
-        $('.order_sum').text(number_format(order_sum, 2, '.', ',') + ' грн')
-        $('.cart-count').text(count);
-        $.cookie('cart_products', JSON.stringify(ids), {path: '/'});
-    }
-
-    // відкрити корзину по кліку
-    $body.on('click', '.cart-open', function () {
-        $('.cart-open').fadeOut();
-    });
-
-    // якщо корзина порожня то сховати значок
-    $('#cart').on('hidden.bs.modal', function (e) {
-        if (+$('.cart-count').text() != 0)
-            $('.cart-open').fadeIn();
-    });
-
-    // додати товар до корзини
-    $body.on('click', '.to_cart', function () {
-        var data = $(this).data('data');
-
-        function create_row(name, id, photo, price) {
-            $('#cart .products').append('<tr class="product" data-id="' + id + '">' +
-                '<td style="border-top: none" class="product_photo"><img width="70px" height="70px" src="' + photo + '" alt="image"></td>' +
-                '<td style="border-top: none; vertical-align: middle; font-weight: bolder" class="product_name">' + name + '</td>' +
-                '<td style="border-top: none;vertical-align: middle;text-align: right;">' +
-                '<span class="minus_cart action_cart">-</span>' +
-                '<span class="product_amount">1</span>' +
-                '<span class="plus_cart action_cart">+</span>' +
-                '</td>' +
-                '<td style="border-top: none;vertical-align: middle;text-align: right;">' +
-                '<span class="product_price">' +
-                '' + price + '' +
-                '</span> грн' +
-                '<span class="un_cart">x</span>' +
-                '</td>' +
-                '</tr>');
-
-            $('.products').removeClass('none');
-        }
-
-        function add_amount(id, price) {
-            var $row = $('.product[data-id=' + id + ']');
-            var now = $row.find('.product_amount').text();
-            $row.find('.product_amount').text(+now + 1);
-            var $product_price = $row.find('.product_price');
-            var now_price = $product_price.text();
-            $product_price.text(number_format((+filterFloat(now_price) + +price), 2, '.', ','));
-        }
-
-        if ($('.product[data-id=' + data.id + ']').length === 0)
-            create_row(data.name, data.id, data.photo, data.price);
-        else
-            add_amount(data.id, data.price);
-
-
-        $('.cart-open').fadeIn();
-
-        reset_cookie();
-
-    });
 
     // видалити товар з корзини
     $body.on('click', '.un_cart', function () {

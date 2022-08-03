@@ -24,6 +24,12 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.products')
                 ->permission('platform.products'),
 
+            Menu::make('Замовлення')
+                ->icon('basket')
+                ->route('platform.orders')
+                ->permission('platform.orders')
+                ->title('Клієнтська частина'),
+
             Menu::make('Користувачі')
                 ->icon('user')
                 ->route('platform.systems.users')
@@ -34,13 +40,19 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('lock')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            Menu::make('Перемінні')
+                ->icon('config')
+                ->route('platform.settings')
+                ->permission('platform.settings')
+                ->title('Налаштування сайту'),
         ];
     }
 
     public function registerProfileMenu(): array
     {
         return [
-            Menu::make('Profile')
+            Menu::make('Профіль')
                 ->route('platform.profile')
                 ->icon('user'),
         ];
@@ -49,13 +61,19 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerPermissions(): array
     {
         return [
-            ItemPermission::group(__('System'))
-                ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+            ItemPermission::group('Система')
+                ->addPermission('platform.systems.roles', 'Ролі')
+                ->addPermission('platform.systems.users', 'Користувачі'),
 
             ItemPermission::group('Каталог')
                 ->addPermission('platform.categories', 'Категорії')
-                ->addPermission('platform.products', 'Товари')
+                ->addPermission('platform.products', 'Товари'),
+
+            ItemPermission::group('Налаштування')
+                ->addPermission('platform.settings', 'Перемінні'),
+
+            ItemPermission::group('Клієнтська частина')
+                ->addPermission('platform.orders', 'Замовлення'),
         ];
     }
 }

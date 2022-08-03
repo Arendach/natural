@@ -45,30 +45,40 @@ function send_email($from, $to, $txt)
     mail($to, $subject, $txt, $headers);
 }
 
-function sendSms(string $phone, string $message, ?string $log = null): bool
+function sms(string $phone, string $message): bool
 {
-    if (setting('Ключ АПІ Mobizon')) {
-        $api = new MobizonApi(setting('Ключ АПІ Mobizon'), 'api.mobizon.ua');
+    if (!setting('Mobizon: API ключ')) {
+        return false;
+    }
 
-        $parameters = [
-            'recipient' => getNumberWorldFormat($phone),
-            'text'      => trim($message),
-            'from'      => setting('sms.from')
-        ];
+    $api = new MobizonApi(setting('Mobizon: API ключ'), 'api.mobizon.ua');
 
-        try {
-            if ($api->call('message', 'sendSMSMessage', $parameters)) {
-                if ($log) {
-                    $parameters['date'] = date('Y-m-d H:i:s');
-                    $parameters['comment'] = $log;
-                    SmsLog::insert($parameters);
-                }
-                return true;
-            }
-        } catch (Exception $exception){
-            Log::error($exception->getMessage());
+    $parameters = [
+        'recipient' => getNumberWorldFormat($phone),
+        'text'      => trim($message),
+        'from'      => setting('Mobizon: підпис відправника')
+    ];
+
+    try {
+        if ($api->call('message', 'sendSMSMessage', $parameters, [], true)) {
+            SmsLog::create([
+                'from'    => setting('Mobizon: підпис відправника'),
+                'to'      => getNumberWorldFormat($phone),
+                'message' => trim($message),
+            ]);
+            return true;
         }
+    } catch (Exception $exception) {
+        Log::error($exception->getMessage());
     }
 
     return false;
+}
+
+if (!function_exists('clearPhone')) {
+    function clearPhone(null|string $phone): null|string
+    {
+        if (is_null($phone)) return null;
+        return preg_replace('~[()\s-]~', '', $phone);
+    }
 }
