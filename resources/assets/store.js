@@ -1,4 +1,5 @@
-import {createStore} from "vuex"
+import {createStore} from 'vuex'
+import cookie from 'vue-cookies'
 
 export default createStore({
   state: {
@@ -27,7 +28,7 @@ export default createStore({
       let foundProduct = state.products.filter(item => item.id === product.id)
       if (foundProduct.length === 1) {
         return state.products.map(item => {
-          item.count++
+          item.count = product.count || item.count + 1
           return item
         })
       }
@@ -47,22 +48,31 @@ export default createStore({
     }
   },
   actions: {
-    addProduct({commit}, product) {
-      commit('addProduct', {...product, count: 1})
+    addProduct({commit, dispatch}, product) {
+      commit('addProduct', {...product, count: product.count || 1})
+
+      dispatch('setCookies')
     },
-    changeCount({commit, getters}, {action, product}) {
+    changeCount({commit, getters, dispatch}, {action, product}) {
       commit('changeCount', {action, product})
 
-      if (getters.products.length === 0) {
-        commit('setCartModalOpen', false)
-      }
-    },
-    removeProduct({commit, getters}, product) {
-      commit('removeProduct', product)
+      dispatch('setCookies')
 
       if (getters.products.length === 0) {
         commit('setCartModalOpen', false)
       }
+    },
+    removeProduct({commit, getters, dispatch}, product) {
+      commit('removeProduct', product)
+
+      dispatch('setCookies')
+
+      if (getters.products.length === 0) {
+        commit('setCartModalOpen', false)
+      }
+    },
+    setCookies({getters}) {
+      cookie.set('cartProducts', JSON.stringify(getters.products.map(product => ({id: product.id, count: product.count}))))
     }
   }
 })

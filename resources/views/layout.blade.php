@@ -19,6 +19,7 @@
     <meta property="og:site_name" content="shar.kiev.ua"/>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>{{ $title ?? setting('Сео title за замовчуванням') }}</title>
+    <meta name="csrf" content="{{ csrf_token() }}">
 </head>
 <body>
 <header>

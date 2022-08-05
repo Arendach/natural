@@ -1,5 +1,5 @@
 <template>
-  <MDBModal fullscreen v-model="cartModalOpen">
+  <MDBModal fullscreen="lg-down" size="xl" v-model="isOpened">
     <MDBModalHeader @close="closeModal">
       <MDBModalTitle id="exampleModalLabel">Корзина</MDBModalTitle>
     </MDBModalHeader>
@@ -16,10 +16,6 @@
 
       <OrderForm/>
     </MDBModalBody>
-    <MDBModalFooter>
-      <MDBBtn color="secondary" @click="closeModal">Закрити</MDBBtn>
-      <MDBBtn color="primary">Оформити замовлення</MDBBtn>
-    </MDBModalFooter>
   </MDBModal>
 </template>
 
@@ -43,6 +39,14 @@ export default {
   },
   computed: {
     ...mapGetters(['productsSum', 'cartModalOpen']),
+    isOpened: {
+      get() {
+        return this.cartModalOpen
+      },
+      set(value) {
+        this.setCartModalOpen(value)
+      },
+    }
   },
   methods: {
     ...mapMutations(['setCartModalOpen']),

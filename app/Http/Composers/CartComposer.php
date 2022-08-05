@@ -3,24 +3,29 @@
 namespace App\Http\Composers;
 
 use App\Models\Product;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class CartComposer
 {
     public function compose(View $view): void
     {
-        $cartProducts = $_COOKIE['cart_products'];
+        $cartProducts = json_decode($_COOKIE['cartProducts']);
+        $cartProducts = collect($cartProducts);
 
-        $products = Product::whereIn('id', array_keys($cartProducts))->get();
-        $countProducts = array_sum(array_values($cartProducts));
-        $cartSum = $this->getCartSum($products, $cartProducts);
+        $products = Product::whereIn('id', $cartProducts->pluck('id'))
+            ->get()
+            ->map(function (Product $product) use ($cartProducts) {
+                return [
+                    'id'      => $product->id,
+                    'title'   => $product->title,
+                    'price'   => $product->price,
+                    'picture' => $product->picture,
+                    'url'     => $product->url,
+                    'count'   => $cartProducts->where('id', $product->id)->first()->count,
+                ];
+            })
+            ->toArray();
 
-        $view->with(compact('products', 'countProducts', 'cartProducts', 'cartSum'));
-    }
-
-    private function getCartSum(Collection $products, array $cartProducts): float
-    {
-        return $products->sum(fn (Product $product) => $product->price * $cartProducts[$product->id]);
+        $view->with(compact('products'));
     }
 }

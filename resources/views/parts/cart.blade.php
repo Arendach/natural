@@ -1,3 +1,3 @@
 <div id="cart-app">
-    <cart :products="[]"/>
+    <cart :products="{{ json_encode($products) }}"/>
 </div>
