@@ -24,6 +24,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.products')
                 ->permission('platform.products'),
 
+            Menu::make('Баннери')
+                ->icon('picture')
+                ->route('platform.banners')
+                ->permission('platform.banners'),
+
             Menu::make('Замовлення')
                 ->icon('basket')
                 ->route('platform.orders')
@@ -67,7 +72,8 @@ class PlatformProvider extends OrchidServiceProvider
 
             ItemPermission::group('Каталог')
                 ->addPermission('platform.categories', 'Категорії')
-                ->addPermission('platform.products', 'Товари'),
+                ->addPermission('platform.products', 'Товари')
+                ->addPermission('platform.banners', 'Баннери'),
 
             ItemPermission::group('Налаштування')
                 ->addPermission('platform.settings', 'Перемінні'),

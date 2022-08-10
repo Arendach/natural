@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 
-Route::get('category', 'RedirectController@category');
-Route::get('product', 'RedirectController@product');
-Route::get('f/{id}', 'RedirectController@feedback');
-Route::redirect('search', '/');
-Route::get('/', 'IndexController@index')->name('home');
+Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('product/{product:slug}', [ProductController::class, 'index'])->name('product');
-Route::get('category/{slug}', 'CategoryController@show')->name('category');
+Route::get('category/{category:slug}', [CategoryController::class, 'show'])->name('category');
 Route::get('sitemap.xml', 'SiteMapController@index')->name('sitemap.xml');
+Route::get('thank/{order:id}', [OrderController::class, 'thank'])->name('thank');
 
 Route::get('/search/{query}', 'SearchController@index')->name('search');
 

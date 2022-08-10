@@ -17,11 +17,11 @@ class SmsNotificationsTask
 
     private function sendCustomer(Order $order): void
     {
-        sendSms($order->phone, "Ваше замовлення №$order->id приняте! Очікуйте дзвінка!");
+        //sms($order->phone, "Ваше замовлення №$order->id приняте! Очікуйте дзвінка!");
     }
 
     private function sendAdmin(Order $order): void
     {
-        sendSms(setting('Номери адміністраторів'), 'Нове замовлення на сайті');
+        //sms(setting('Номери адміністраторів'), 'Нове замовлення на сайті');
     }
 }

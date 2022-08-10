@@ -2,11 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AuthCheck;
-use App\Http\Middleware\AuthUpdate;
-use App\Http\Middleware\CartProducts;
 use App\Http\Middleware\EncryptCookies;
-use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
@@ -35,7 +31,6 @@ class Kernel extends HttpKernel
         TrustProxies::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
-        CartProducts::class,
     ];
 
     protected $middlewareGroups = [
@@ -48,14 +43,10 @@ class Kernel extends HttpKernel
             SubstituteBindings::class,
         ],
 
-        'api'    => [
+        'api' => [
             'throttle:60,1',
             'bindings',
         ],
-        'auth'   => [
-            AuthCheck::class,
-            AuthUpdate::class
-        ]
     ];
 
     protected $routeMiddleware = [
@@ -63,7 +54,6 @@ class Kernel extends HttpKernel
         'bindings'         => SubstituteBindings::class,
         'cache.headers'    => SetCacheHeaders::class,
         'can'              => Authorize::class,
-        'guest'            => RedirectIfAuthenticated::class,
         'password.confirm' => RequirePassword::class,
         'signed'           => ValidateSignature::class,
         'throttle'         => ThrottleRequests::class,

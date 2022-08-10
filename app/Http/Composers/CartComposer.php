@@ -9,7 +9,7 @@ class CartComposer
 {
     public function compose(View $view): void
     {
-        $cartProducts = json_decode($_COOKIE['cartProducts']);
+        $cartProducts = json_decode($_COOKIE['cartProducts'] ?? '[]');
         $cartProducts = collect($cartProducts);
 
         $products = Product::whereIn('id', $cartProducts->pluck('id'))

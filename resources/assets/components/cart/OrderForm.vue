@@ -43,6 +43,7 @@
 
 <script>
 import {MDBInput, MDBRow, MDBTextarea, MDBContainer, MDBBtn, MDBCol} from 'mdb-vue-ui-kit'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'OrderForm',
@@ -61,6 +62,7 @@ export default {
       comment: '',
     }
   },
+  computed: mapGetters(['products']),
   methods: {
     sendForm(event) {
       event.target.classList.add('was-validated')
@@ -68,6 +70,14 @@ export default {
       if (!event.target.checkValidity()) {
         return;
       }
+
+      let products = this.products.map(product => {
+        return {
+          product_id: product.id,
+          count: product.count,
+          price: product.price,
+        }
+      })
 
       fetch('/order/create', {
         method: 'post',
@@ -80,10 +90,12 @@ export default {
           name: this.name,
           phone: this.phone,
           comment: this.comment,
+          products: products,
         })
       })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => window.location.href = res.redirectUrl)
+        .catch(err => alert('Помилка, замовлення не вдалось створити!'))
     }
   }
 }

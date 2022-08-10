@@ -2,6 +2,7 @@
 
 use App\Models\SmsLog;
 use App\Services\SettingsService;
+use App\Services\SmsService;
 use Mobizon\MobizonApi;
 
 function getNumberWorldFormat(string $phone): ?string
@@ -45,34 +46,9 @@ function send_email($from, $to, $txt)
     mail($to, $subject, $txt, $headers);
 }
 
-function sms(string $phone, string $message): bool
+function sms(string $phone, string $message): void
 {
-    if (!setting('Mobizon: API ключ')) {
-        return false;
-    }
-
-    $api = new MobizonApi(setting('Mobizon: API ключ'), 'api.mobizon.ua');
-
-    $parameters = [
-        'recipient' => getNumberWorldFormat($phone),
-        'text'      => trim($message),
-        'from'      => setting('Mobizon: підпис відправника')
-    ];
-
-    try {
-        if ($api->call('message', 'sendSMSMessage', $parameters, [], true)) {
-            SmsLog::create([
-                'from'    => setting('Mobizon: підпис відправника'),
-                'to'      => getNumberWorldFormat($phone),
-                'message' => trim($message),
-            ]);
-            return true;
-        }
-    } catch (Exception $exception) {
-        Log::error($exception->getMessage());
-    }
-
-    return false;
+    app(SmsService::class)->sendSms($phone, $message);
 }
 
 if (!function_exists('clearPhone')) {

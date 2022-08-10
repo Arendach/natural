@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasImages;
 use App\Models\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
@@ -21,16 +21,12 @@ class Product extends Model
         HasSeo,
         AsSource,
         Attachable,
-        Filterable;
+        Filterable,
+        HasImages;
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function images(): HasMany
-    {
-        return $this->hasMany(ProductImage::class);
     }
 
     public function getUrl(): string
@@ -41,7 +37,7 @@ class Product extends Model
     public function getPicture(): string
     {
         if (is_file(public_path($this->picture))) return asset($this->picture);
-        elseif (preg_match('/^http/', $this->picture)) return $this->picture;
+        elseif (preg_match('/^http/', (string)$this->picture)) return $this->picture;
         else return asset('images/no_photo.png');
     }
 
@@ -50,7 +46,7 @@ class Product extends Model
         $value = $this->picture_min ?: $this->picture;
 
         if (is_file(public_path($value))) return asset($value);
-        elseif (preg_match('/^http/', $value)) return $value;
+        elseif (preg_match('/^http/', (string)$value)) return $value;
         else return asset('images/no_photo.png');
     }
 

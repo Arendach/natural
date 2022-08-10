@@ -11,18 +11,16 @@
         "php": "^8.1",
         "ext-gd": "*",
         "ext-json": "*",
-        "eventviva/php-image-resize": "^1.9",
-        "jenssegers/agent": "^2.6",
+        "intervention/image": "^2.7",
+        "kudinovfedor/sms-club-json": "^1.0",
         "laravel-notification-channels/telegram": "*",
         "laravel/framework": "^9.0",
-        "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.0",
         "mobizon/mobizon-php": "^2.0",
-        "orchid/crud": "^3.7",
         "orchid/platform": "^12.6",
+        "spatie/data-transfer-object": "^3.8",
         "spatie/image-optimizer": "^1.2",
-        "spatie/laravel-sitemap": "^6.2",
-        "tholu/php-packer": "^0.2.0"
+        "spatie/laravel-sitemap": "^6.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
