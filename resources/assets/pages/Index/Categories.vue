@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Products from "./Products"
+import Products from "@/pages/Index/Products"
 
 export default {
   name: 'Categories',

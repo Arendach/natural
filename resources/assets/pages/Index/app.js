@@ -1,9 +1,9 @@
 import {createApp} from 'vue'
 import VueCookies from 'vue-cookies'
-import store from "../../store"
+import store from "@/store"
 import VueLazyLoad from "vue-lazyload"
-import Index from './Index'
-import Cart from "../../components/cart/Cart"
+import Index from '@/pages/Index/Index'
+import Cart from "@/components/cart/Cart"
 
 createApp({})
   .component('index', Index)

@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import ModalSwitcher from "./ModalSwitcher"
-import CartModal from "./CartModal"
+import ModalSwitcher from "@/components/cart/ModalSwitcher"
+import CartModal from "@/components/cart/CartModal"
 import {mapActions} from "vuex"
 
 export default {

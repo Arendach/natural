@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 import VueLazyLoad from "vue-lazyload"
-import Thank from './Thank'
+import Thank from '@/pages/thank/Thank'
 
 createApp({})
   .component('thank', Thank)

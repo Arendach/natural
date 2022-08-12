@@ -22,8 +22,8 @@
 <script>
 import {mapGetters, mapMutations} from 'vuex'
 import {MDBModal, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter, MDBBtn} from 'mdb-vue-ui-kit'
-import ProductsList from "./ProductsList"
-import OrderForm from "./OrderForm"
+import ProductsList from "@/components/cart/ProductsList"
+import OrderForm from "@/components/cart/OrderForm"
 
 export default {
   name: 'CartModal',

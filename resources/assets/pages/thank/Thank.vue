@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import Banners from "../Index/Banners"
+import Banners from "@/pages/Index/Banners"
 
 export default {
   name: 'Thank',
