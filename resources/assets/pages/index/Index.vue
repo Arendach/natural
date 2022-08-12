@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Categories from "@/pages/Index/Categories"
-import Banners from "@/pages/Index/Banners"
+import Categories from "@/pages/index/Categories"
+import Banners from "@/pages/index/Banners"
 
 export default {
   name: 'Index',
