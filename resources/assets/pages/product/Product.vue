@@ -26,7 +26,7 @@
             </button>
           </div>
         </div>
-        <div style="margin-top: 10px">
+        <div style="margin: 10px 0">
           <a style="margin-right: 10px" target="_blank" href="http://instagram.com/vozdushno">
             <i style="color: hotpink" class="fa fa-instagram"></i> Instagram
           </a>
@@ -44,7 +44,7 @@
                 :tabId="delivery.slug"
                 :href="delivery.slug"
               >
-                <img src="/icons/nova_poshta.svg" alt="NovaPoshta icon"> {{ delivery.title }}
+                <img :src="delivery.picture" :alt="delivery.title"> {{ delivery.title }}
               </MDBTabItem>
             </MDBTabNav>
             <MDBTabContent>
