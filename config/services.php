@@ -34,7 +34,7 @@ return [
         'default' => 'smsclub',
         'drivers' => [
             'smsclub' => [
-                'alpha' => 'VashZakaz',
+                'alpha' => 'arendach',
                 'token' => 'VmgEMdN3wzKTZry',
             ],
             'mobizon' => [

@@ -16,7 +16,7 @@ trait HasImages
         return $this->morphMany(Image::class, 'model');
     }
 
-    public function getImage(string $field, int $width, int $height, int $quality = 100): ?string
+    public function getImage(string $field, int $width, int $height, int $quality = 100): string
     {
         // якщо Resizer відключений, то повертаємо оригінальне зображення
         if (!config('filesystems.use_image_resizer')) {
@@ -24,7 +24,7 @@ trait HasImages
         }
 
         if (empty($this->$field)) {
-            return null;
+            return '';
         }
 
         $relatedImage = $this->images
@@ -50,5 +50,15 @@ trait HasImages
         ]));
 
         return asset($this->$field);
+    }
+
+    public function getOriginalHeight(string $field): int
+    {
+        return getimagesize(public_path($this->$field))[1];
+    }
+
+    public function getOriginalWidth(string $field): int
+    {
+        return getimagesize(public_path($this->$field))[0];
     }
 }

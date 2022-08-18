@@ -1,8 +1,6 @@
-@extends('main')
+@extends('layout')
 
 @section('content')
-
-    {{-- Линия разделитель --}}
     <div class="container-fluid">
         <hr style="margin-top: 0">
     </div>
@@ -375,4 +373,4 @@
         </script>
 
 
-@endsection('content')
+@endsection

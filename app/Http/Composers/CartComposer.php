@@ -13,6 +13,7 @@ class CartComposer
         $cartProducts = collect($cartProducts);
 
         $products = Product::whereIn('id', $cartProducts->pluck('id'))
+            ->orderByDesc('id')
             ->get()
             ->map(function (Product $product) use ($cartProducts) {
                 return [

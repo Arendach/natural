@@ -2,25 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Repositories\BannerRepository;
+use App\Repositories\CategoryRepository;
+use App\Transformers\BannersTransformer;
+use App\Transformers\CategoryWithProductsTransformer;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function show($slug)
+    public function __construct(private CategoryRepository $repository)
     {
-        $category = Category::with(['products' => function (HasMany $builder) {
-            $builder->orderByDesc('priority');
-        }])->where('slug', $slug)->firstOrFail();
+    }
+
+    public function index(string $slug): View
+    {
+        $category = $this->repository->getCategoryWithProducts($slug);
 
         $data = [
-            'title'            => $category->meta_title,
-            'meta_keywords'    => $category->meta_keywords,
-            'meta_description' => $category->meta_description,
-            'category'         => $category,
-            'breadcrumbs'      => [[$category->name]],
+            'page'             => $category,
+            'seo'              => $category->getSeo(),
+            'breadcrumbs'      => $category->getBreadcrumbs(),
+            'categoryResource' => app(CategoryWithProductsTransformer::class)->run($category),
+            'banners'          => app(BannersTransformer::class)->run(
+                app(BannerRepository::class)->getBanners()
+            )
         ];
 
-        return view('category.main', $data);
+        return view('pages.category', $data);
     }
 }

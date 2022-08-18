@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('product/{product:slug}', [ProductController::class, 'index'])->name('product');
-Route::get('category/{category:slug}', [CategoryController::class, 'show'])->name('category');
+Route::get('category/{category:slug}', [CategoryController::class, 'index'])->name('category');
 Route::get('sitemap.xml', 'SiteMapController@index')->name('sitemap.xml');
 Route::get('thank/{order:id}', [OrderController::class, 'thank'])->name('thank');
 

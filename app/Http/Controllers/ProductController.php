@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Gumlet\ImageResize;
+use App\Repositories\DeliveryRepository;
+use App\Resources\DeliveryResource;
+use App\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -15,13 +17,14 @@ class ProductController extends Controller
             'title'            => $product->seo->title,
             'meta_description' => $product->seo->description,
             'meta_keywords'    => $product->seo->keywords,
-            'product'          => $product,
+            'product'          => new ProductResource($product),
             'breadcrumbs'      => [
-                [$product->category->name, $product->category->url],
+                [$product->category->title, $product->category->getUrl()],
                 [$product->title]
-            ]
+            ],
+            'deliveries' => DeliveryResource::collection(app(DeliveryRepository::class)->activeDeliveries())
         ];
 
-        return view('product.main', $data);
+        return view('pages.product', $data);
     }
 }

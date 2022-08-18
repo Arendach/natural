@@ -27,6 +27,7 @@
     "vue-cookies": "^1.8.1",
     "vue-lazyload": "^3.0.0-rc.2",
     "vue3-carousel": "^0.1.40",
+    "vue3-picture-swipe": "^3.0.6",
     "vuex": "^4.0.2"
   }
 }

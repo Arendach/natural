@@ -1,24 +1,29 @@
+@php
+    /** @var \App\Models\Seo $seo */
+@endphp
 <!doctype html>
-<html lang="ru">
+<html lang="ua">
 <head>
     @include('parts.google-analytics')
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="{{ $meta_description ?? setting('Сео description за замовчуванням') }}">
-    <meta name="keywords" content="{{ $meta_keywords ?? setting('Сео keywords за замовчуванням')  }}">
-    <meta name="robots" content="index,follow">
 
-    <meta property="og:title" content="{{ $title ?? '' }}"/>
-    <meta property="og:description" content="{{ $meta_description ?? setting('Сео description за замовчуванням') }}"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if(isset($seo) && $seo instanceof \App\Models\Seo)
+        <meta name="description" content="{{ $seo->getDescription() }}">
+        <meta name="keywords" content="{{ $seo->getKeywords() }}">
+        <meta name="robots" content="index,follow">
+        <meta property="og:title" content="{{ $seo->getTitle() }}"/>
+        <meta property="og:description" content="{{ $seo->getDescription() }}"/>
+        <meta property="og:site_name" content="{{ setting('Назва сайту(og)', request()->getHost()) }}"/>
+        <title>{{ $seo->getTitle() }}</title>
+
+    @endif
 
     @isset($product->photo)
         <meta property="og:url" content="{{ $product->photo }}"/>
     @endisset
-    <meta property="og:site_name" content="shar.kiev.ua"/>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <title>{{ $title ?? setting('Сео title за замовчуванням') }}</title>
     <meta name="csrf" content="{{ csrf_token() }}">
 </head>
 <body>
@@ -31,10 +36,6 @@
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 align-self-center">
                 <a target="_blank" href="tel:{{ clearPhone(setting('Номер телефону')) }}">
                     <i class="fa fa-phone"></i> {{ setting('Номер телефону') }}
-                </a>
-                <br>
-                <a target="_blank" href="https://api.whatsapp.com/send?phone={{ clearPhone(setting('Номер телефону')) }}">
-                    <i class="fa fa-whatsapp"></i> WhatsApp
                 </a>
                 <br>
                 <a target="_blank" href="viber://chat?number={{ clearPhone(setting('Номер телефону')) }}">
@@ -52,27 +53,27 @@
 
         <hr>
 
-        <div class="container">
-            <form id="search" class="row">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 mb-3 mb-sm-3 mb-md-3 mb-lg-0 mb-xl-0">
-                    <input
-                            required
-                            value="{{ $search_query ?? '' }}"
-                            placeholder="Пошук товарів ..."
-                            name="query"
-                            type="search"
-                            class="form-control"
-                    >
+        {{--        <div class="container">
+                    <form id="search" class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 mb-3 mb-sm-3 mb-md-3 mb-lg-0 mb-xl-0">
+                            <input
+                                    required
+                                    value="{{ $search_query ?? '' }}"
+                                    placeholder="Пошук товарів ..."
+                                    name="query"
+                                    type="search"
+                                    class="form-control"
+                            >
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa fa-search"></i> Почати
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fa fa-search"></i> Почати
-                    </button>
-                </div>
-            </form>
-        </div>
 
-        <hr>
+                <hr>--}}
 
         <div class="row align-items-center">
             <div class="col-12">
@@ -88,6 +89,8 @@
                 </ul>
             </div>
         </div>
+
+        <hr style="margin-top: 0">
 
     </div>
 </header>

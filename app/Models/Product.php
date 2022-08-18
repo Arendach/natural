@@ -16,6 +16,13 @@ class Product extends Model
     protected $table = 'products';
     public $timestamps = true;
     protected $guarded = [];
+    protected $casts = [
+        'is_active'  => 'bool',
+        'is_storage' => 'bool',
+        'price'      => 'float',
+        'discount'   => 'float',
+        'priority'   => 'int',
+    ];
 
     use SoftDeletes,
         HasSeo,
@@ -53,5 +60,13 @@ class Product extends Model
     public function getLazy(): string
     {
         return asset('images/balloons.jpg');
+    }
+
+    public function getBreadcrumbs(): array
+    {
+        return [
+            [$this->category->title, $this->category->getUrl()],
+            [$this->title, $this->getUrl()]
+        ];
     }
 }

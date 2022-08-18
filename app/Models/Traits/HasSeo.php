@@ -13,4 +13,16 @@ trait HasSeo
     {
         return $this->morphOne(Seo::class, 'model');
     }
+
+    public function getSeo(): Seo
+    {
+        return $this->seo ?: new Seo;
+    }
+
+    public function getBreadcrumbs(): array
+    {
+        return [
+            [$this->title]
+        ];
+    }
 }
