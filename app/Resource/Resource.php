@@ -2,6 +2,8 @@
 
 namespace App\Resource;
 
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Responsable;
 use Countable;
 use ArrayAccess;
@@ -29,8 +31,7 @@ class Resource implements ArrayAccess, Countable, JsonSerializable, Responsable,
 
     public static function collection($resource)
     {
-        return tap(new AnonymousResourceCollection($resource, static::class), function () {
-        });
+        return new AnonymousResourceCollection($resource, static::class);
     }
 
     public function __get($key)
@@ -83,19 +84,38 @@ class Resource implements ArrayAccess, Countable, JsonSerializable, Responsable,
 
     public function jsonSerialize()
     {
-        return $this->resource->toArray();
+        return $this->resolve();
     }
 
     public function toArray(): array
     {
-        return $this->resource->toArray();
+        if (is_null($this->resource)) {
+            return [];
+        }
+
+        return is_array($this->resource)
+            ? $this->resource
+            : $this->resource->toArray();
     }
 
     public function __toString(): string
     {
         return json_encode(
-            $this->toArray(),
+            $this->jsonSerialize(),
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
+    }
+
+    public function resolve(): array
+    {
+        $data = $this->toArray();
+
+        if ($data instanceof Arrayable) {
+            $data = $data->toArray();
+        } elseif ($data instanceof JsonSerializable) {
+            $data = $data->jsonSerialize();
+        }
+
+        return $this->filter((array) $data);
     }
 }

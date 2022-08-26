@@ -13,6 +13,8 @@ class ProductController extends Controller
     {
         abort_if(!$product->is_active, 404);
 
+        $product->load('relatedImages', 'relatedImages.images', 'images');
+
         $data = [
             'title'            => $product->seo->title,
             'meta_description' => $product->seo->description,

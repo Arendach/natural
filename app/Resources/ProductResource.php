@@ -19,7 +19,8 @@ class ProductResource extends Resource
             'category'          => new CategoryResource($this->whenLoaded('category')),
             'pictureOriginal'   => asset($this->picture),
             'picture'           => $this->getImage('picture', 474, 474, 50),
-            'gallery'           => $this->mapGallery($this->resource),
+            'main_picture'      => $this->getMainPicture($this->resource),
+            'gallery'           => RelatedImageResource::collection($this->whenLoaded('relatedImages')),
             'is_storage'        => $this->is_storage,
             'is_active'         => $this->is_active,
             'description'       => $this->description,
@@ -28,18 +29,15 @@ class ProductResource extends Resource
         ];
     }
 
-    private function mapGallery(Product $product): array
+    private function getMainPicture(Product $product): array
     {
-        $gallery = [];
-
-        $gallery[] = [
+        return [
             'src'       => $product->picture,
             'thumbnail' => $product->getImage('picture', 474, 474, 50),
             'w'         => $product->getOriginalWidth('picture'),
             'h'         => $product->getOriginalHeight('picture'),
             'alt'       => $product->title,
+            'title'     => $product->title,
         ];
-
-        return $gallery;
     }
 }

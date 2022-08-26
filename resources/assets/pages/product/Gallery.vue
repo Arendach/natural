@@ -27,7 +27,10 @@ export default {
   },
   computed: {
     pictures() {
-      return this.product.gallery
+      return [
+        this.product.main_picture,
+        ...this.product.gallery,
+      ]
     }
   }
 }
@@ -36,6 +39,7 @@ export default {
 <style>
 .my-gallery {
   display: block;
+  text-align: left;
 }
 
 .my-gallery figure {
@@ -44,20 +48,26 @@ export default {
   margin: 3px;
 }
 
+.my-gallery figure a {
+  display: inline-block;
+}
+
 .my-gallery figure img {
   height: 100px;
+  display: inline-block;
 }
 
 .my-gallery figcaption {
   display: none;
 }
 
-figure:first-child {
+.my-gallery figure:first-child {
   width: 100%;
   height: 100%;
+  display: block;
 }
 
-figure:first-child img {
+.my-gallery figure:first-child img {
   height: 100%;
   width: 100%;
 }

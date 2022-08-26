@@ -14,7 +14,7 @@ class ResourceCollection extends Resource implements Countable, IteratorAggregat
 {
     public string $collects;
 
-    public Collection $collection;
+    public ?Collection $collection = null;
 
     public function __construct($resource)
     {

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\Traits\HasImages;
+use App\Models\Traits\HasRelatedImages;
 use App\Models\Traits\HasSeo;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
@@ -29,7 +29,8 @@ class Product extends Model
         AsSource,
         Attachable,
         Filterable,
-        HasImages;
+        HasImages,
+        HasRelatedImages;
 
     public function category(): BelongsTo
     {

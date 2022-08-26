@@ -11,6 +11,7 @@ use App\Orchid\Requests\Products\UpdateRequest;
 use App\Orchid\ScreenAbstract;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Input;
@@ -26,7 +27,7 @@ use Orchid\Support\Facades\Toast;
 
 class ProductsScreen extends ScreenAbstract
 {
-    protected string $model = Category::class;
+    protected string $model = Product::class;
 
     public function name(): ?string
     {
@@ -148,6 +149,9 @@ class ProductsScreen extends ScreenAbstract
                                 ->icon('trash')
                                 ->confirm('Ви впевнені що хочете видалити?')
                                 ->method('destroy', ['id' => $product->id]),
+                            Link::make('Фотогалерея')
+                                ->route('platform.products.images', $product->id)
+                                ->icon('picture'),
                         ]);
                 }),
         ]);

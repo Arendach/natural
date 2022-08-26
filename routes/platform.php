@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Orchid\Screens\Base\SettingsScreen;
 use App\Orchid\Screens\Catalog\BannersScreen;
 use App\Orchid\Screens\Catalog\CategoriesScreen;
+use App\Orchid\Screens\Catalog\ProductsImagesScreen;
 use App\Orchid\Screens\Catalog\ProductsScreen;
 use App\Orchid\Screens\Client\OrdersScreen;
 use App\Orchid\Screens\PlatformScreen;
@@ -108,6 +109,15 @@ Route::screen('products', ProductsScreen::class)
         return $trail
             ->parent('platform.index')
             ->push('Товари', route('platform.products'));
+    });
+
+Route::screen('products/{product}/images', ProductsImagesScreen::class)
+    ->name('platform.products.images')
+    ->breadcrumbs(function (Trail $trail, $product) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Товари', route('platform.products'))
+            ->push('Зображення', route('platform.products.images', $product));
     });
 
 Route::screen('banners', BannersScreen::class)
