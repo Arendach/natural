@@ -1,7 +1,7 @@
 <template>
   <div class="product-cat">
     <a :href="product.url">
-      <img v-lazy="product.picture" :alt="product.title">
+      <img v-lazy="product.mainPicture.thumbnail" :alt="product.title">
     </a>
     <h3 class="product-name">
       {{ product.title }}

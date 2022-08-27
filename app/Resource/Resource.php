@@ -82,7 +82,7 @@ class Resource implements ArrayAccess, Countable, JsonSerializable, Responsable,
         return response()->json($this->resource);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->resolve();
     }

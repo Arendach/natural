@@ -19,13 +19,15 @@ class ProductResource extends Resource
             'category'          => new CategoryResource($this->whenLoaded('category')),
             'pictureOriginal'   => asset($this->picture),
             'picture'           => $this->getImage('picture', 474, 474, 50),
-            'main_picture'      => $this->getMainPicture($this->resource),
+            'mainPicture'       => $this->getMainPicture($this->resource),
             'gallery'           => RelatedImageResource::collection($this->whenLoaded('relatedImages')),
             'is_storage'        => $this->is_storage,
             'is_active'         => $this->is_active,
             'description'       => $this->description,
             'short_description' => $this->short_description,
             'article'           => $this->id,
+            'orderCount'        => $this->whenPivotLoaded('order_product', fn() => $this->pivot->count),
+            'orderPrice'        => $this->whenPivotLoaded('order_product', fn() => $this->pivot->price),
         ];
     }
 

@@ -1,55 +1,56 @@
 <?php
 
-use App\Models\SmsLog;
 use App\Services\SettingsService;
 use App\Services\SmsService;
-use Mobizon\MobizonApi;
 
-function getNumberWorldFormat(string $phone): ?string
-{
-    if (preg_match('/\+38[0-9]{10}/', $phone)) {
-        return $phone;
+if (!function_exists('getPhoneWorldFormat')) {
+    function getPhoneWorldFormat(string $phone): ?string
+    {
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+
+        if (preg_match('~\+38[0-9]{10}~', $phone)) {
+            return $phone;
+        }
+
+        if (preg_match('~38[0-9]{10}~', $phone)) {
+            return "+$phone";
+        }
+
+        if (preg_match('~[0-9]{10}~', $phone)) {
+            return "+38$phone";
+        }
+
+        if (preg_match('~[0-9]{9}~', $phone)) {
+            return "+380$phone";
+        }
+
+        return null;
     }
+}
 
-    if (preg_match('@38[0-9]{10}@', $phone)) {
-        return "+$phone";
+if (!function_exists('validPhoneWorldFormat')) {
+    function validPhoneWorldFormat(?string $phone): bool
+    {
+        if (is_null($phone)) return false;
+
+        return preg_match('~\+380[0-9]{9}~', $phone);
     }
+}
 
-    if (preg_match('@[0-9]{10}@', $phone)) {
-        return "+38$phone";
+if (!function_exists('setting')) {
+    function setting(string $key, mixed $default = null): mixed
+    {
+        return app(SettingsService::class)->get($key, $default);
     }
+}
 
-    if (preg_match('@[0-9]{9}@', $phone)) {
-        return "+380$phone";
+if (!function_exists('sms')) {
+    function sms(string $phone, string $message): void
+    {
+        app(SmsService::class)->sendSms($phone, $message);
     }
-
-    return null;
 }
 
-function rand32(): string
-{
-    return md5(md5(rand(1000, 9999) . date('YmdHis') . rand(10000, 99999)));
-}
-
-function setting(string $key, mixed $default = null): mixed
-{
-    return app(SettingsService::class)->get($key, $default);
-}
-
-function send_email($from, $to, $txt)
-{
-    $subject = "Оповещение shar.kiev.ua";
-    $headers = "From: <$from> \r\n";
-    $headers .= "MIME-Version: 1.0 \r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8 \r\n";
-
-    mail($to, $subject, $txt, $headers);
-}
-
-function sms(string $phone, string $message): void
-{
-    app(SmsService::class)->sendSms($phone, $message);
-}
 
 if (!function_exists('clearPhone')) {
     function clearPhone(null|string $phone): null|string

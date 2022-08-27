@@ -21,7 +21,7 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
-import {MDBModal, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter, MDBBtn} from 'mdb-vue-ui-kit'
+import {MDBModal, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter} from 'mdb-vue-ui-kit'
 import ProductsList from "@/components/cart/ProductsList"
 import OrderForm from "@/components/cart/OrderForm"
 
@@ -34,7 +34,6 @@ export default {
     MDBModalTitle,
     MDBModalBody,
     MDBModalFooter,
-    MDBBtn,
     ProductsList,
   },
   computed: {

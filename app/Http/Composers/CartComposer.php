@@ -12,6 +12,11 @@ class CartComposer
         $cartProducts = json_decode($_COOKIE['cartProducts'] ?? '[]');
         $cartProducts = collect($cartProducts);
 
+        if (!$cartProducts->count()) {
+            $view->with(['products' => []]);
+            return;
+        }
+
         $products = Product::whereIn('id', $cartProducts->pluck('id'))
             ->orderByDesc('id')
             ->get()

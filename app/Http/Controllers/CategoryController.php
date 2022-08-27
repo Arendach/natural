@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Repositories\BannerRepository;
 use App\Repositories\CategoryRepository;
-use App\Transformers\BannersTransformer;
-use App\Transformers\CategoryWithProductsTransformer;
+use App\Resources\BannerResource;
+use App\Resources\CategoryResource;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function __construct(private CategoryRepository $repository)
+    private CategoryRepository $repository;
+
+    public function __construct(CategoryRepository $repository)
     {
+        $this->repository = $repository;
     }
 
     public function index(string $slug): View
@@ -22,10 +25,8 @@ class CategoryController extends Controller
             'page'             => $category,
             'seo'              => $category->getSeo(),
             'breadcrumbs'      => $category->getBreadcrumbs(),
-            'categoryResource' => app(CategoryWithProductsTransformer::class)->run($category),
-            'banners'          => app(BannersTransformer::class)->run(
-                app(BannerRepository::class)->getBanners()
-            )
+            'categoryResource' => new CategoryResource($category),
+            'banners'          => BannerResource::collection(app(BannerRepository::class)->getBanners()),
         ];
 
         return view('pages.category', $data);

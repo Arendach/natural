@@ -1,13 +1,15 @@
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-127848847-2"></script>
+@if(config('app.env') === 'production')
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127848847-2"></script>
 
-<script>
-    window.dataLayer = window.dataLayer || [];
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-        dataLayer.push(arguments);
-    }
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-    gtag('js', new Date());
-    gtag('config', 'UA-127848847-2');
-</script>
+        gtag('js', new Date());
+        gtag('config', 'UA-127848847-2');
+    </script>
+@endif

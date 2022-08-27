@@ -17,11 +17,25 @@ class SmsNotificationsTask
 
     private function sendCustomer(Order $order): void
     {
-        //sms($order->phone, "Ваше замовлення №$order->id приняте! Очікуйте дзвінка!");
+        if (!validPhoneWorldFormat($order->getPhone())) {
+            return;
+        }
+
+        sms($order->getPhone(), "Ваше замовлення №$order->id приняте!\nОчікуйте дзвінка!");
     }
 
     private function sendAdmin(Order $order): void
     {
-        //sms(setting('Номери адміністраторів'), 'Нове замовлення на сайті');
+        $phones = explode(',', setting('Номери адміністраторів', ''));
+
+        foreach ($phones as $phone) {
+            $phone = getPhoneWorldFormat($phone);
+
+            if (!validPhoneWorldFormat($phone)) {
+                continue;
+            }
+
+            sms($phone, "New order\nID $order->id\nName $order->name\nPhone $order->phone");
+        }
     }
 }

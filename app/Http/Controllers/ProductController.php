@@ -24,7 +24,8 @@ class ProductController extends Controller
                 [$product->category->title, $product->category->getUrl()],
                 [$product->title]
             ],
-            'deliveries' => DeliveryResource::collection(app(DeliveryRepository::class)->activeDeliveries())
+            'deliveries'       => DeliveryResource::collection(app(DeliveryRepository::class)->activeDeliveries()),
+            'seo'              => $product->getSeo(),
         ];
 
         return view('pages.product', $data);

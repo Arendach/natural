@@ -17,11 +17,25 @@ class SmsNotificationsTask
 
     private function sendCustomer(Feedback $feedback): void
     {
-        sendSms($feedback->phone, 'Ваше замовлення принято! Очікуйте дзвінка!');
+        if (!validPhoneWorldFormat($feedback->getPhone())) {
+            return;
+        }
+
+        sms($feedback->getPhone(), 'Ваша заявка принята! Очікуйте дзвінка!');
     }
 
     private function sendAdmin(Feedback $feedback): void
     {
-        sendSms(setting('Номери адміністраторів', ''), "Feedback! Name $feedback->name Phone $feedback->phone");
+        $phones = explode(',', setting('Номери адміністраторів', ''));
+
+        foreach ($phones as $phone) {
+            $phone = getPhoneWorldFormat($phone);
+
+            if (!validPhoneWorldFormat($phone)) {
+                continue;
+            }
+
+            sms($phone, "Feedback!\nName $feedback->name\nPhone $feedback->phone");
+        }
     }
 }

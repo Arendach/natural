@@ -54,11 +54,15 @@ trait HasImages
 
     public function getOriginalHeight(string $field): int
     {
+        if (!is_file(public_path($this->$field))) return 0;
+
         return getimagesize(public_path($this->$field))[1];
     }
 
     public function getOriginalWidth(string $field): int
     {
+        if (!is_file(public_path($this->$field))) return 0;
+
         return getimagesize(public_path($this->$field))[0];
     }
 }

@@ -1,3 +1,8 @@
+<div id="feedback-app">
+    <feedback/>
+</div>
+{{--
+
 <div data-toggle="modal" data-target="#feedback" class="feedback-open">
     <i class="fa fa-phone"></i>
     <span class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">Перетелефонуйте мені</span>
@@ -57,3 +62,4 @@
         </div>
     </div>
 </div>
+--}}

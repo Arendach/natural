@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Banner;
 use App\Models\Category;
-use App\Models\Product;
 use App\Repositories\BannerRepository;
-use App\Transformers\BannersTransformer;
+use App\Resource\AnonymousResourceCollection;
+use App\Resources\BannerResource;
+use App\Resources\CategoryResource;
 use Cache;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\View\View;
 
@@ -20,18 +21,20 @@ class IndexController extends Controller
             'categories'       => $this->getCategories(),
             'meta_keywords'    => setting('Сео keywords головної сторінки'),
             'meta_description' => setting('Сео description головної сторінки'),
-            'banners'          => app(BannersTransformer::class)->run(
-                app(BannerRepository::class)->getBanners()
-            ),
+            'banners'          => BannerResource::collection(app(BannerRepository::class)->getBanners()),
         ];
 
         return view('pages.index', $data);
     }
 
-    private function getCategories(): array
+    private function getCategories(): AnonymousResourceCollection
     {
         return Cache::rememberForever('categoriesWithProducts', function () {
-            $categories = Category::withCount('products')->orderByDesc('priority')->get();
+            $categories = Category::withCount([
+                'products' => function (Builder $builder) {
+                    $builder->where('is_active', true);
+                }
+            ])->orderByDesc('priority')->get();
 
             $categories->each(function (Category $category) {
                 $category->load(['products' => function (HasMany $builder) {
@@ -41,27 +44,7 @@ class IndexController extends Controller
                 }, 'products.images']);
             });
 
-            return $categories->map(function (Category $category) {
-                return [
-                    'id'               => $category->id,
-                    'url'              => $category->getUrl(),
-                    'description'      => $category->description,
-                    'title'            => $category->title,
-                    'productsCount'    => $category->products_count,
-                    'allProductsCount' => $category->products()->count(),
-                    'products'         => $category->products->map(function (Product $product) {
-                        return [
-                            'id'         => $product->id,
-                            'title'      => $product->title,
-                            'picture'    => (string)$product->getImage('picture', 474, 474, 50),
-                            'pictureMin' => $product->getPictureMin(),
-                            'url'        => $product->getUrl(),
-                            'price'      => $product->price,
-                            'discount'   => $product->discount,
-                        ];
-                    })->toArray()
-                ];
-            })->toArray();
+            return CategoryResource::collection($categories);
         });
     }
 }

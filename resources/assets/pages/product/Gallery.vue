@@ -28,7 +28,7 @@ export default {
   computed: {
     pictures() {
       return [
-        this.product.main_picture,
+        this.product.mainPicture,
         ...this.product.gallery,
       ]
     }

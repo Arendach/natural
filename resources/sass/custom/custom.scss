@@ -160,20 +160,20 @@ img, iframe {
     text-decoration: none;
 }
 
-.scrollup {
+.scroll-up {
     width: 40px;
     height: 40px;
     opacity: 0.3;
     position: fixed;
     bottom: 60px;
     left: 40px;
-    display: none;
     text-indent: 9999px;
     background: url('/images/top.png') no-repeat;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
+    z-index: 2
 }
 
-.scrollup:hover {
+.scroll-up:hover {
     opacity: .6;
 }
 

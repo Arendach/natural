@@ -30,27 +30,31 @@ class SmsService
 
     private function sendSmsClub(string $phone, string $message): void
     {
-        $manager = new SmsManager();
-        $manager->setToken(config('services.sms.drivers.smsclub.token'));
-        $manager->setFrom(config('services.sms.drivers.smsclub.alpha'));
-        $manager->setTo([$phone]);
-        $manager->setMessage($message);
-        $manager->send();
+        if (config('app.env') === 'production') {
+            $manager = new SmsManager();
+            $manager->setToken(config('services.sms.drivers.smsclub.token'));
+            $manager->setFrom(config('services.sms.drivers.smsclub.alpha'));
+            $manager->setTo([$phone]);
+            $manager->setMessage($message);
+            $manager->send();
+        }
 
         $this->saveLog($phone, $message);
     }
 
     private function sendMobizon(string $phone, string $message): void
     {
-        $api = new MobizonApi(config('services.sms.drivers.mobizon.token'), 'api.mobizon.ua');
+        if (config('app.env') === 'production') {
+            $api = new MobizonApi(config('services.sms.drivers.mobizon.token'), 'api.mobizon.ua');
 
-        $parameters = [
-            'recipient' => getNumberWorldFormat($phone),
-            'text'      => trim($message),
-            'from'      => config('services.sms.drivers.mobizon.alpha'),
-        ];
+            $parameters = [
+                'recipient' => getPhoneWorldFormat($phone),
+                'text'      => trim($message),
+                'from'      => config('services.sms.drivers.mobizon.alpha'),
+            ];
 
-        $api->call('message', 'sendSMSMessage', $parameters, [], true);
+            $api->call('message', 'sendSMSMessage', $parameters, [], true);
+        }
 
         $this->saveLog($phone, $message);
     }
@@ -59,7 +63,7 @@ class SmsService
     {
         SmsLog::create([
             'from'    => 'myself',
-            'to'      => getNumberWorldFormat($phone),
+            'to'      => getPhoneWorldFormat($phone),
             'message' => trim($message),
         ]);
     }

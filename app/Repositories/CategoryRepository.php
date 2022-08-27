@@ -12,7 +12,8 @@ class CategoryRepository
         return Category::where('is_active', true)
             ->where('slug', $slug)
             ->with([
-                'products' => fn(HasMany $builder) => $builder->orderByDesc('priority')
+                'products' => fn(HasMany $builder) => $builder->orderByDesc('priority'),
+                'products.images',
             ])
             ->firstOrFail();
     }

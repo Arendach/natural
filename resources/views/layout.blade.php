@@ -1,13 +1,12 @@
-@php
-    /** @var \App\Models\Seo $seo */
-@endphp
+@php /** @var \App\Models\Seo $seo */ @endphp
 <!doctype html>
 <html lang="ua">
 <head>
     @include('parts.google-analytics')
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @if(isset($seo) && $seo instanceof \App\Models\Seo)
         <meta name="description" content="{{ $seo->getDescription() }}">
@@ -17,7 +16,8 @@
         <meta property="og:description" content="{{ $seo->getDescription() }}"/>
         <meta property="og:site_name" content="{{ setting('Назва сайту(og)', request()->getHost()) }}"/>
         <title>{{ $seo->getTitle() }}</title>
-
+    @elseif(isset($title))
+        <title>{{ $title }}</title>
     @endif
 
     @isset($product->photo)
@@ -91,7 +91,6 @@
         </div>
 
         <hr style="margin-top: 0">
-
     </div>
 </header>
 
@@ -103,7 +102,8 @@
     {!! setting('Копірайт в футері') !!}
 </footer>
 
-<a href="#" style="z-index: 2" class="scrollup"></a>
+@include('parts.scroll-up')
+@include('parts.feedback')
 
 @yield('js')
 

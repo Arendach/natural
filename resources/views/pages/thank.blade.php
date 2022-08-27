@@ -3,11 +3,7 @@
 @section('content')
 
     <div id="thank-app">
-        <thank
-            :banners="{{ json_encode($banners) }}"
-            :order="{{ json_encode($order) }}"
-            :products="{{ json_encode($products) }}"
-        ></thank>
+        <thank :banners="{{ $banners }}" :order="{{ $order }}"></thank>
     </div>
 
 @endsection

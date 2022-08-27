@@ -93,7 +93,11 @@ export default {
           products: products,
         })
       })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw res
+
+          return res.json()
+        })
         .then(res => window.location.href = res.redirectUrl)
         .catch(err => alert('Помилка, замовлення не вдалось створити!'))
     }
