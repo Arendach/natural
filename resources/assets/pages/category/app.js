@@ -2,7 +2,7 @@ import {createApp} from 'vue'
 import VueCookies from 'vue-cookies'
 import store from '@/store'
 import VueLazyLoad from 'vue-lazyload'
-import Category from '@/pages/Category/Category'
+import Category from '@/pages/category/Category'
 import Cart from '@/components/cart/Cart'
 import ScrollUp from "@/components/common/ScrollUp";
 
