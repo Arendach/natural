@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\Base\DeliveriesScreen;
 use App\Orchid\Screens\Base\SettingsScreen;
 use App\Orchid\Screens\Catalog\BannersScreen;
 use App\Orchid\Screens\Catalog\CategoriesScreen;
 use App\Orchid\Screens\Catalog\ProductsImagesScreen;
 use App\Orchid\Screens\Catalog\ProductsScreen;
+use App\Orchid\Screens\Client\FeedbacksScreen;
 use App\Orchid\Screens\Client\OrdersScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
@@ -134,6 +136,22 @@ Route::screen('settings', SettingsScreen::class)
         return $trail
             ->parent('platform.index')
             ->push('Налаштування', route('platform.settings'));
+    });
+
+Route::screen('deliveries', DeliveriesScreen::class)
+    ->name('platform.deliveries')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Способи доставки', route('platform.deliveries'));
+    });
+
+Route::screen('feedbacks', FeedbacksScreen::class)
+    ->name('platform.feedbacks')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Зворотній звязок', route('platform.feedbacks'));
     });
 
 Route::screen('orders', OrdersScreen::class)

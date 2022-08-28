@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
+use App\Models\Feedback;
 use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Screen\Actions\Menu;
+use Orchid\Support\Color;
 
 class PlatformProvider extends OrchidServiceProvider
 {
@@ -35,6 +37,12 @@ class PlatformProvider extends OrchidServiceProvider
                 ->permission('platform.orders')
                 ->title('Клієнтська частина'),
 
+            Menu::make('Зворотні дзвінки')
+                ->icon('earphones-alt')
+                ->route('platform.feedbacks')
+                ->permission('platform.feedbacks')
+                ->badge(fn() => '+' . Feedback::where('is_accepted', false)->count(), Color::DANGER()),
+
             Menu::make('Користувачі')
                 ->icon('user')
                 ->route('platform.systems.users')
@@ -51,6 +59,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.settings')
                 ->permission('platform.settings')
                 ->title('Налаштування сайту'),
+
+            Menu::make('Способи доставки')
+                ->icon('move')
+                ->route('platform.deliveries')
+                ->permission('platform.deliveries'),
         ];
     }
 
@@ -76,10 +89,12 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.banners', 'Баннери'),
 
             ItemPermission::group('Налаштування')
-                ->addPermission('platform.settings', 'Перемінні'),
+                ->addPermission('platform.settings', 'Перемінні')
+                ->addPermission('platform.deliveries', 'Способи доставки'),
 
             ItemPermission::group('Клієнтська частина')
-                ->addPermission('platform.orders', 'Замовлення'),
+                ->addPermission('platform.orders', 'Замовлення')
+                ->addPermission('platform.feedbacks', 'Зворотні дзвінки'),
         ];
     }
 }

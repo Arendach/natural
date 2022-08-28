@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Base;
 
 use App\Models\Delivery;
-use App\Models\Setting;
+use App\Orchid\Requests\Deliveries\StoreRequest;
+use App\Orchid\Requests\Deliveries\UpdateRequest;
 use App\Orchid\ScreenAbstract;
-use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\Picture;
+use Orchid\Screen\Fields\Quill;
 use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -46,25 +49,45 @@ class DeliveriesScreen extends ScreenAbstract
         ];
     }
 
+    public function commandBar(): iterable
+    {
+        return [
+            ModalToggle::make('Додати доставку')
+                ->modal('create')
+                ->icon('plus')
+                ->method('store')
+        ];
+    }
+
     public function layout(): iterable
     {
         return [
             $this->table(),
             $this->editModal(),
+            $this->createModal(),
         ];
     }
 
-    public function asyncGetSetting(Setting $setting): array
+    public function asyncGetDelivery(Delivery $delivery): array
     {
-        return compact('setting');
+        return compact('delivery');
     }
 
-    public function update(Request $request): void
+    public function update(UpdateRequest $request): void
     {
-        Setting::findOrFail($request->input('setting.id'))->update($request->input('setting'));
+        Delivery::findOrFail($request->input('delivery.id'))->update($request->getData());
 
-        Toast::info('Перемінна оновлена');
+        Toast::info('Доставка оновлена');
     }
+
+
+    public function store(StoreRequest $request): void
+    {
+        Delivery::create($request->getData());
+
+        Toast::info('Доставка створена');
+    }
+
 
     public function table(): Table
     {
@@ -78,12 +101,16 @@ class DeliveriesScreen extends ScreenAbstract
                 ->sort(),
 
             TD::make('picture', 'Іконка')
-                ->render(fn(Delivery $delivery) => "<img src='{$delivery->picture}'>"),
+                ->render(fn(Delivery $delivery) => "<a target='_blank' href='$delivery->picture'><img style='max-width: 100px' src='$delivery->picture'></a>"),
+
+            TD::make('is_active', 'Активна')
+                ->sort()
+                ->render(fn(Delivery $delivery) => $delivery->is_active ? 'Так' : 'Ні'),
 
             TD::make('Дії')
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (Setting $setting) {
+                ->render(function (Delivery $delivery) {
                     return DropDown::make()
                         ->icon('options-vertical')
                         ->list([
@@ -91,10 +118,14 @@ class DeliveriesScreen extends ScreenAbstract
                                 ->modal('edit')
                                 ->icon('pencil')
                                 ->method('update')
-                                ->modalTitle('Редагувати перемінну')
+                                ->modalTitle('Редагувати доставку')
                                 ->asyncParameters([
-                                    'setting' => $setting->id
+                                    'delivery' => $delivery->id
                                 ]),
+                            Button::make('Видалити')
+                                ->icon('trash')
+                                ->confirm('Ви впевнені що хочете видалити?')
+                                ->method('destroy', ['id' => $delivery->id]),
                         ]);
                 }),
         ]);
@@ -103,12 +134,28 @@ class DeliveriesScreen extends ScreenAbstract
     public function editModal(): Modal
     {
         return Layout::modal('edit', Layout::rows([
-            Input::make('setting.id')->type('hidden'),
-            Input::make('setting.title')->title('Перемінна')->readonly(),
-            TextArea::make('setting.content')->title('Значення'),
+            Input::make('delivery.id')->type('hidden'),
+            Input::make('delivery.title')->title('Назва')->required(),
+            Input::make('delivery.slug')->title('Slug')->required(),
+            Quill::make('delivery.description')->title('Умови доставки'),
+            Picture::make('delivery.picture')->title('Іконка')->targetRelativeUrl(),
+            CheckBox::make('delivery.is_active')->placeholder('Активна')->sendTrueOrFalse(),
         ]))
-            ->title('Редагування перемінної')
-            ->async('asyncGetSetting')
+            ->title('Редагування доставки')
+            ->async('asyncGetDelivery')
+            ->size(Modal::SIZE_LG);
+    }
+
+    public function createModal(): Modal
+    {
+        return Layout::modal('create', Layout::rows([
+            Input::make('title')->title('Назва')->required(),
+            Input::make('slug')->title('Slug'),
+            Quill::make('description')->title('Опис'),
+            Picture::make('picture')->title('Іконка')->targetRelativeUrl(),
+            CheckBox::make('is_active')->placeholder('Активна')->sendTrueOrFalse(),
+        ]))
+            ->title('Нова доставка')
             ->size(Modal::SIZE_LG);
     }
 }

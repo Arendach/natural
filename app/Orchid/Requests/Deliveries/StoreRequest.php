@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Requests\Categories;
+namespace App\Orchid\Requests\Deliveries;
 
 use App\Orchid\Requests\Request;
 use Str;
@@ -13,9 +13,9 @@ class StoreRequest extends Request
     {
         return [
             'title'       => 'required',
-            'slug'        => 'nullable|unique:categories,slug',
+            'slug'        => 'nullable|unique:deliveries,slug',
             'description' => 'nullable',
-            'priority'    => 'nullable|numeric',
+            'picture'     => 'nullable|string',
             'is_active'   => 'nullable|boolean',
         ];
     }
@@ -23,8 +23,7 @@ class StoreRequest extends Request
     public function getData(): array
     {
         return $this->validatedWithDefault([
-            'priority' => 0,
-            'slug'     => $this->get('slug') ?: Str::slug($this->get('title')),
+            'slug' => $this->get('slug') ?: Str::slug($this->get('title')),
         ]);
     }
 }

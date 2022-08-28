@@ -29,7 +29,7 @@ class StoreRequest extends Request
     public function getData(): array
     {
         return $this->validatedWithDefault([
-            'slug'     => Str::slug($this->get('title')),
+            'slug'     => $this->get('slug') ?: Str::slug($this->get('title')),
             'price'    => 0,
             'discount' => 0,
             'priority' => 0,

@@ -169,7 +169,7 @@ class CategoriesScreen extends ScreenAbstract
     {
         return Layout::modal('create', Layout::rows([
             Input::make('title')->title('Назва')->required(),
-            Input::make('slug')->title('Slug')->required(),
+            Input::make('slug')->title('Slug'),
             Input::make('priority')->title('Пріоритет'),
             Quill::make('description')->title('Опис'),
             CheckBox::make('is_active')->placeholder('Активна')->sendTrueOrFalse(),

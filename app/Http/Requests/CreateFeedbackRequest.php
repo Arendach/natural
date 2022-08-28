@@ -17,12 +17,15 @@ class CreateFeedbackRequest extends FormRequest
         return [
             'name'    => 'required|max:255',
             'phone'   => ['required', new Phone],
-            'comment' => 'nullable|max:3000',
+            'message' => 'nullable|max:3000',
         ];
     }
 
     public function getData(): array
     {
-        return $this->validated();
+        return [
+            ...$this->validated(),
+            'phone' => getPhoneWorldFormat($this->get('phone'))
+        ];
     }
 }

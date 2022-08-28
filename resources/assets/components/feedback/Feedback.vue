@@ -109,7 +109,7 @@ export default {
         body: JSON.stringify({
           name: this.name,
           phone: this.phone,
-          comment: this.comment,
+          message: this.message,
         })
       })
         .then(res => {
