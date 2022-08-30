@@ -28,6 +28,7 @@ class ProductResource extends Resource
             'article'           => $this->id,
             'orderCount'        => $this->whenPivotLoaded('order_product', fn() => $this->pivot->count),
             'orderPrice'        => $this->whenPivotLoaded('order_product', fn() => $this->pivot->price),
+            'count'             => $this->when($this->count, $this->count), // для корзини
         ];
     }
 

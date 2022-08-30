@@ -28,7 +28,7 @@ export default createStore({
       let foundProduct = state.products.filter(item => item.id === product.id)
       if (foundProduct.length === 1) {
         return state.products.map(item => {
-          item.count = product.count || item.count + 1
+          if (item.id === foundProduct[0].id) item.count++
           return item
         })
       }

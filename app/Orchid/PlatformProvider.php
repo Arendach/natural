@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid;
 
 use App\Models\Feedback;
+use App\Models\Order;
 use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Screen\Actions\Menu;
@@ -35,7 +36,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('basket')
                 ->route('platform.orders')
                 ->permission('platform.orders')
-                ->title('Клієнтська частина'),
+                ->title('Клієнтська частина')
+                ->badge(fn() => '+' . Order::whereNull('accepted_at')->count(), Color::DANGER()),
 
             Menu::make('Зворотні дзвінки')
                 ->icon('earphones-alt')
@@ -64,6 +66,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('move')
                 ->route('platform.deliveries')
                 ->permission('platform.deliveries'),
+
+            Menu::make('Соцмережі')
+                ->icon('facebook')
+                ->route('platform.social_links')
+                ->permission('platform.social_links'),
         ];
     }
 
@@ -90,7 +97,8 @@ class PlatformProvider extends OrchidServiceProvider
 
             ItemPermission::group('Налаштування')
                 ->addPermission('platform.settings', 'Перемінні')
-                ->addPermission('platform.deliveries', 'Способи доставки'),
+                ->addPermission('platform.deliveries', 'Способи доставки')
+                ->addPermission('platform.social_links', 'Соцмережі'),
 
             ItemPermission::group('Клієнтська частина')
                 ->addPermission('platform.orders', 'Замовлення')

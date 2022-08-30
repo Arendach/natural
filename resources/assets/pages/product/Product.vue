@@ -21,22 +21,24 @@
             {{ product.price }} грн
           </span>
           <div style="margin-top: 10px">
-            <button class="btn btn-success btn-sm btn-block to_cart">
+            <button class="btn btn-success btn-sm btn-block" @click="addProduct(product)">
               В корзину
             </button>
           </div>
         </div>
         <div style="margin: 10px 0">
-          <a style="margin-right: 10px" target="_blank" href="http://instagram.com/vozdushno">
-            <i style="color: hotpink" class="fa fa-instagram"></i> Instagram
-          </a>
-          <a target="_blank" href="https://facebook.com/vozdushno.com.ua">
-            <i style="color: dodgerblue" class="fa fa-facebook"></i> Facebook
+          <a
+            style="margin-right: 10px"
+            target="_blank" :href="link.url"
+            v-for="link in socialLinks"
+            :key="link.id"
+          >
+            <img style="display: inline" :src="link.picture" :alt="link.title"> {{ link.title }}
           </a>
         </div>
 
         <div class="deliveries-list alert alert-success">
-          <MDBTabs v-model="activeDeliveryTab">
+          <MDBTabs v-model="activeDeliveryTab" :model-value="activeDeliveryTab">
             <MDBTabNav fill tabsClasses="mb-3">
               <MDBTabItem
                 v-for="delivery in deliveries"
@@ -74,6 +76,7 @@ import {
   MDBTabItem,
   MDBTabPane,
 } from 'mdb-vue-ui-kit'
+import {mapActions} from "vuex"
 
 export default {
   name: 'Product',
@@ -98,8 +101,16 @@ export default {
     deliveries: {
       type: Array,
       required: true,
+    },
+    socialLinks: {
+      type: Array,
+      default: [],
+      required: false,
     }
-  }
+  },
+  methods: {
+    ...mapActions(['addProduct'])
+  },
 }
 </script>
 

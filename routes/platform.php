@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\Base\DeliveriesScreen;
 use App\Orchid\Screens\Base\SettingsScreen;
+use App\Orchid\Screens\Base\SocialLinksScreen;
 use App\Orchid\Screens\Catalog\BannersScreen;
 use App\Orchid\Screens\Catalog\CategoriesScreen;
 use App\Orchid\Screens\Catalog\ProductsImagesScreen;
 use App\Orchid\Screens\Catalog\ProductsScreen;
 use App\Orchid\Screens\Client\FeedbacksScreen;
+use App\Orchid\Screens\Client\OrdersEditScreen;
 use App\Orchid\Screens\Client\OrdersScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
@@ -146,6 +148,14 @@ Route::screen('deliveries', DeliveriesScreen::class)
             ->push('Способи доставки', route('platform.deliveries'));
     });
 
+Route::screen('social_links', SocialLinksScreen::class)
+    ->name('platform.social_links')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Соцмережі', route('platform.social_links'));
+    });
+
 Route::screen('feedbacks', FeedbacksScreen::class)
     ->name('platform.feedbacks')
     ->breadcrumbs(function (Trail $trail) {
@@ -157,3 +167,13 @@ Route::screen('feedbacks', FeedbacksScreen::class)
 Route::screen('orders', OrdersScreen::class)
     ->name('platform.orders')
     ->breadcrumbs(fn(Trail $trail) => $trail->parent('platform.index')->push('Замовлення', 'platform.orders'));
+
+
+Route::screen('orders/{order}/edit', OrdersEditScreen::class)
+    ->name('platform.orders.edit')
+    ->breadcrumbs(function (Trail $trail, $product) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Замовлення', route('platform.orders'))
+            ->push('Редагування', route('platform.orders.edit', $product));
+    });

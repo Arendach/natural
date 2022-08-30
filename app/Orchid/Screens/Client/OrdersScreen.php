@@ -2,12 +2,15 @@
 
 namespace App\Orchid\Screens\Client;
 
-use App\Models\Category;
 use App\Models\Order;
 use App\Orchid\ScreenAbstract;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
+use Auth;
+use Orchid\Support\Facades\Toast;
 
 class OrdersScreen extends ScreenAbstract
 {
@@ -37,6 +40,16 @@ class OrdersScreen extends ScreenAbstract
         ];
     }
 
+    public function asyncAcceptOrder(Order $order)
+    {
+        $order->accepted_at = now();
+        $order->accepted_id = Auth::id();
+
+        $order->save();
+
+        Toast::info('Замовлення вдало прийняте вами!');
+    }
+
     public function layout(): iterable
     {
         return [
@@ -45,7 +58,7 @@ class OrdersScreen extends ScreenAbstract
                     ->sort()
                     ->filter(),
 
-                TD::make('title', 'Клієнт')
+                TD::make('name', 'Імя')
                     ->sort()
                     ->filter(),
 
@@ -53,22 +66,43 @@ class OrdersScreen extends ScreenAbstract
                     ->sort()
                     ->filter(),
 
-                TD::make('comment', 'Коментар')
-                    ->sort()
-                    ->filter(),
-
                 TD::make('price', 'Повна вартість')
                     ->render(fn(Order $order) => $order->products_price + $order->delivery_price - $order->discount_price),
+
+                TD::make('created_at', 'Створено')
+                    ->filter(TD::FILTER_DATE_RANGE)
+                    ->sort()
+                    ->render(fn(Order $order) => $order->created_at?->format('Y.m.d H:i') ?? '-'),
+
+                TD::make('accepted_at', 'Прийняте')
+                    ->filter(TD::FILTER_DATE_RANGE)
+                    ->sort()
+                    ->render(fn(Order $order) => $order->accepted_at?->format('Y.m.d H:i') ?? '-'),
+
+                TD::make('accepted_at', 'Прийняв')
+                    ->sort()
+                    ->render(fn(Order $order) => $order->accepted?->name ?? '-'),
 
                 TD::make('Дії')
                     ->align(TD::ALIGN_CENTER)
                     ->width('100px')
-                    ->render(function (Category $category) {
+                    ->render(function (Order $order) {
+                        $actions = [];
+
+                        $actions[] = Link::make('Редагувати')
+                            ->route('platform.orders.edit', ['order' => $order->id])
+                            ->icon('pencil');
+
+                        if (!$order->accepted_id || !$order->accepted_at) {
+                            $actions[] = Button::make('Прийняти замовлення')
+                                ->icon('check')
+                                ->method('asyncAcceptOrder')
+                                ->parameters(['order' => $order->id]);
+                        }
+
                         return DropDown::make()
                             ->icon('options-vertical')
-                            ->list([
-
-                            ]);
+                            ->list($actions);
                     }),
             ])
         ];

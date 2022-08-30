@@ -3,6 +3,7 @@
 namespace App\Http\Composers;
 
 use App\Models\Product;
+use App\Resources\ProductResource;
 use Illuminate\View\View;
 
 class CartComposer
@@ -17,20 +18,15 @@ class CartComposer
             return;
         }
 
-        $products = Product::whereIn('id', $cartProducts->pluck('id'))
+        $products = Product::with('category', 'relatedImages')
+            ->whereIn('id', $cartProducts->pluck('id'))
             ->orderByDesc('id')
             ->get()
-            ->map(function (Product $product) use ($cartProducts) {
-                return [
-                    'id'      => $product->id,
-                    'title'   => $product->title,
-                    'price'   => $product->price,
-                    'picture' => $product->picture,
-                    'url'     => $product->url,
-                    'count'   => $cartProducts->where('id', $product->id)->first()->count,
-                ];
-            })
-            ->toArray();
+            ->each(function (Product $product) use ($cartProducts) {
+                $product->setAttribute('count', $cartProducts->where('id', $product->id)->first()->count);
+            });
+
+        $products = ProductResource::collection($products);
 
         $view->with(compact('products'));
     }

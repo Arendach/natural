@@ -11,5 +11,4 @@ class DeliveryRepository
     {
         return Delivery::where('is_active', true)->get();
     }
-
 }

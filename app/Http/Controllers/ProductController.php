@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Repositories\DeliveryRepository;
-use App\Resources\DeliveryResource;
 use App\Resources\ProductResource;
 
 class ProductController extends Controller
@@ -24,7 +22,6 @@ class ProductController extends Controller
                 [$product->category->title, $product->category->getUrl()],
                 [$product->title]
             ],
-            'deliveries'       => DeliveryResource::collection(app(DeliveryRepository::class)->activeDeliveries()),
             'seo'              => $product->getSeo(),
         ];
 
