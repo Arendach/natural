@@ -1,9 +1,11 @@
 <template>
-  <Banners :banners="banners"/>
+  <div>
+    <Banners :banners="banners"/>
 
-  <Categories :categories="categories" v-show="categories.length"/>
+    <Categories :categories="categories" v-show="categories.length"/>
 
-  <h2 v-show="!categories.length" style="text-align: center; margin: 100px 0">Тут порожньо:(</h2>
+    <h2 v-show="!categories.length" style="text-align: center; margin: 100px 0">Тут порожньо:(</h2>
+  </div>
 </template>
 
 <script>

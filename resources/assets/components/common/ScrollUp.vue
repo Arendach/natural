@@ -20,7 +20,7 @@ export default {
   created() {
     window.addEventListener('scroll', () => {
       this.isShow = window.scrollY > 100
-    })
+    }, {passive: true})
   },
   methods: {
     scrollToTop() {

@@ -35,15 +35,15 @@
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 align-self-center">
                 <a target="_blank" href="tel:{{ clearPhone(setting('Номер телефону')) }}">
-                    <i class="fa fa-phone"></i> {{ setting('Номер телефону') }}
+                    <img src="/images/phone.svg" style="display: inline; width: 22px; color: #7360F2" alt="Phone"> {{ setting('Номер телефону') }}
                 </a>
                 <br>
                 <a target="_blank" href="viber://chat?number={{ clearPhone(setting('Номер телефону')) }}">
-                    <i class="fa fa-whatsapp"></i> Viber
+                    <img src="/images/viber.svg" style="display: inline; width: 22px; color: #7360F2" alt="Viber"> Viber
                 </a>
                 <br>
                 <a target="_blank" href="https://t.me/zakaz_sharov_vozdushno">
-                    <i class="fa fa-telegram"></i> Telegram
+                    <img src="/images/telegram.svg" style="display: inline; width: 22px; color: #0088CC" alt="Telegram"> Telegram
                 </a>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 align-self-center">

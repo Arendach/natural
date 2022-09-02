@@ -1,9 +1,11 @@
 <template>
-  <div v-for="category in categories" v-show="categories.length">
-    <h2 class="category-title" v-html="category.title"></h2>
-    <div class="category-description" v-html="category.description"></div>
-    <div class="container">
-      <Products :category="category"/>
+  <div>
+    <div v-for="category in categories" v-show="categories.length">
+      <h2 class="category-title" v-html="category.title"></h2>
+      <div class="category-description" v-html="category.description"></div>
+      <div class="container">
+        <Products :category="category"/>
+      </div>
     </div>
   </div>
 </template>

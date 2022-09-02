@@ -1,6 +1,6 @@
 <template>
   <div data-toggle="modal" data-target="#cart" class="cart-open" v-show="productsCount" @click="switchCartModalOpen">
-    <i class="fa fa-shopping-cart"></i>
+    <img src="/images/cart.svg" alt="Cart icon">
     <span class="cart-count">{{ productsCount }}</span>
   </div>
 </template>

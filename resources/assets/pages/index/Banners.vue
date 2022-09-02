@@ -3,10 +3,22 @@
     <Slide v-for="banner in banners" :key="banner.id">
       <div class="banner">
         <div class="d-none d-lg-block">
-          <img :src="banner.picture_desktop" :alt="banner.title" style="width: 100%">
+          <img
+            :src="banner.picture_desktop"
+            :alt="banner.title"
+            style="width: 100%"
+            width="1920"
+            height="400"
+          >
         </div>
         <div class="d-block d-lg-none">
-          <img :src="banner.picture_mobile" :alt="banner.title" style="width: 100%">
+          <img
+            :src="banner.picture_mobile"
+            :alt="banner.title"
+            style="width: 100%"
+            width="991"
+            height="400"
+          >
         </div>
       </div>
     </Slide>
