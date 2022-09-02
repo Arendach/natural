@@ -26,7 +26,7 @@ trait HasSeo
         ];
     }
 
-    public function getOGPicture(): string|null
+    public function getOGImage(): string|null
     {
         return asset('images/no_photo.png');
     }

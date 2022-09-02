@@ -4,5 +4,5 @@ namespace App\Contracts;
 
 interface Seo
 {
-    public function getOGPicture(): string|null;
+    public function getOGImage(): string|null;
 }

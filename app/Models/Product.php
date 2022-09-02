@@ -72,7 +72,7 @@ class Product extends Model implements SeoContract
         ];
     }
 
-    public function getOGPicture(): string|null
+    public function getOGImage(): string|null
     {
         return $this->getImage('picture', 474, 474, 50);
     }

@@ -11,17 +11,21 @@
     @if(isset($seo) && $seo instanceof \App\Models\Seo)
         <meta name="description" content="{{ $seo->getDescription() }}">
         <meta name="keywords" content="{{ $seo->getKeywords() }}">
-        <meta name="robots" content="index,follow">
+        <meta name="robots" content="{{ $seo->is_index ? 'index' : 'noindex' }},{{ $seo->is_follow ? 'follow' : 'nofollow' }}">
         <meta property="og:title" content="{{ $seo->getTitle() }}"/>
         <meta property="og:description" content="{{ $seo->getDescription() }}"/>
-        <meta property="og:site_name" content="{{ setting('Назва сайту(og)', request()->getHost()) }}"/>
         <title>{{ $seo->getTitle() }}</title>
     @elseif(isset($title))
         <title>{{ $title }}</title>
     @endif
 
+    <meta property="og:site_name" content="{{ setting('Назва сайту(og)', request()->getHost()) }}"/>
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="uk_UA">
+    <meta property="og:url" content="{{ request()->fullUrl() }}">
+
     @if(isset($page) && $page instanceof \App\Contracts\Seo)
-        <meta property="og:url" content="{{ $page->getOGPicture() }}"/>
+        <meta property="og:image" content="{{ $page->getOGImage() }}"/>
     @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <meta name="csrf" content="{{ csrf_token() }}">
