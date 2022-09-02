@@ -21,7 +21,7 @@ class DeliverySeeder extends Seeder
                 'title'       => "Кур'єр",
                 'slug'        => 'courier',
                 'description' => "<p>Доставка Кур'єром</p>",
-                'picture'     => '/icons/courier.png',
+                'picture'     => '/images/courier.svg',
                 'is_active'   => true,
             ]);
         }
@@ -34,7 +34,7 @@ class DeliverySeeder extends Seeder
                 'title'       => 'Нова Пошта',
                 'slug'        => 'nova_poshta',
                 'description' => '<p>Доставка Новою Поштою</p>',
-                'picture'     => '/icons/nova_poshta.png',
+                'picture'     => '/images/nova_poshta.svg',
                 'is_active'   => true,
             ]);
         }

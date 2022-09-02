@@ -24,7 +24,7 @@ class SocialLinkSeeder extends Seeder
 
             SocialLink::create([
                 'title'     => 'Facebook',
-                'picture'   => '/icons/facebook.svg',
+                'picture'   => '/images/facebook.svg',
                 'url'       => 'https://facebook.com',
                 'is_active' => true,
                 'priority'  => 0,
@@ -39,7 +39,7 @@ class SocialLinkSeeder extends Seeder
 
             SocialLink::create([
                 'title'     => 'Instagram',
-                'picture'   => '/icons/instagram.svg',
+                'picture'   => '/images/instagram.svg',
                 'url'       => 'https://instagram.com',
                 'is_active' => true,
                 'priority'  => 0,
@@ -54,7 +54,7 @@ class SocialLinkSeeder extends Seeder
 
             SocialLink::create([
                 'title'     => 'Twitter',
-                'picture'   => '/icons/twitter.svg',
+                'picture'   => '/images/twitter.svg',
                 'url'       => 'https://twitter.com',
                 'is_active' => true,
                 'priority'  => 0,
@@ -69,7 +69,7 @@ class SocialLinkSeeder extends Seeder
 
             SocialLink::create([
                 'title'     => 'Youtube',
-                'picture'   => '/icons/youtube.svg',
+                'picture'   => '/images/youtube.svg',
                 'url'       => 'https://youtube.com',
                 'is_active' => true,
                 'priority'  => 0,
