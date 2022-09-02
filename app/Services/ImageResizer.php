@@ -37,7 +37,7 @@ class ImageResizer
         $data = $this->data;
         $image = $this->getImage();
 
-        return "{$image->filename}_{$data->width}_{$data->height}_$data->quality.$image->extension";
+        return "{$image->filename}_{$data->width}_{$data->height}_$data->quality.jpg";
     }
 
     private function makeFolder(): void
@@ -79,10 +79,8 @@ class ImageResizer
                     $this->getHeight()
                 ), 'center'
             )
-            ->save(
-                public_path($this->resizedImage),
-                $this->data->quality
-            );
+            ->encode('jpg', $this->data->quality)
+            ->save(public_path($this->resizedImage));
 
         return true;
     }
@@ -105,12 +103,12 @@ class ImageResizer
 
     private function getWidth(): int
     {
-        return $this->getImage()->width() / $this->getProportion();
+        return ceil($this->getImage()->width() / $this->getProportion());
     }
 
     private function getHeight(): int
     {
-        return $this->getImage()->height() / $this->getProportion();
+        return ceil($this->getImage()->height() / $this->getProportion());
     }
 
     private function attachToModel(): void
