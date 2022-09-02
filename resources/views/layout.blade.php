@@ -20,9 +20,9 @@
         <title>{{ $title }}</title>
     @endif
 
-    @isset($product->photo)
-        <meta property="og:url" content="{{ $product->photo }}"/>
-    @endisset
+    @if(isset($page) && $page instanceof \App\Contracts\Seo)
+        <meta property="og:url" content="{{ $page->getOGPicture() }}"/>
+    @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <meta name="csrf" content="{{ csrf_token() }}">
 </head>

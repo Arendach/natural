@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
+use App\Contracts\Seo as SeoContract;
 
-class Product extends Model
+class Product extends Model implements SeoContract
 {
     protected $table = 'products';
     public $timestamps = true;
@@ -69,5 +70,10 @@ class Product extends Model
             [$this->category->title, $this->category->getUrl()],
             [$this->title, $this->getUrl()]
         ];
+    }
+
+    public function getOGPicture(): string|null
+    {
+        return $this->getImage('picture', 474, 474, 50);
     }
 }

@@ -25,4 +25,9 @@ trait HasSeo
             [$this->title]
         ];
     }
+
+    public function getOGPicture(): string|null
+    {
+        return asset('images/no_photo.png');
+    }
 }

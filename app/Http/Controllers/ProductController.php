@@ -23,6 +23,7 @@ class ProductController extends Controller
                 [$product->title]
             ],
             'seo'              => $product->getSeo(),
+            'page'             => $product,
         ];
 
         return view('pages.product', $data);
