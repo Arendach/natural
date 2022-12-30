@@ -1,0 +1,91 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  overflow: scroll;
+}
+
+.modal.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-window {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%);
+
+  background: $white-font-color;
+  border-radius: 15px;
+
+  // overflow: scroll;
+
+  @media screen and (min-width: 320px) {
+    width: 320px;
+  }
+
+  @media screen and (min-width: 450px) {
+    width: 440px;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 728px;
+  }
+  @media screen and (min-width: 1200px) {
+    width: 857px;
+  }
+}
+
+.m-f {
+  padding: 10px;
+  background-color: $background-body;
+  border-radius: 15px 15px 0 0;
+
+  @media screen and (min-width: 450px) {
+    padding: 20px;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 30px 30px 22px 30px;
+  }
+}
+
+.modal-title {
+  margin-bottom: 31px;
+
+  font-size: 20px;
+}
+
+.modal-button {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  width: 30px;
+  height: 30px;
+
+  cursor: pointer;
+  background: transparent;
+}
+
+.modal-svg {
+  top: 8px;
+  right: 8px;
+
+  border: none;
+
+  width: 18px;
+  height: 18px;
+  fill: $accent-color;
+}

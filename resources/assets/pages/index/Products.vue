@@ -1,17 +1,16 @@
 <template>
-  <div class="products-cat">
-    <ProductItem v-for="product in category.products" :key="product.id" :product="product"/>
+  <div>
+    <ul class="honey__list list">
+      <ProductItem v-for="product in category.products" :key="product.id" :product="product"/>
+    </ul>
 
-    <div class="product-cat" style="text-align: center; display: flex" v-if="category.productsCount < category.allProductsCount">
-      <div style="margin: auto">
-        <a :href="category.url">
-          <img v-lazy="`/images/more.svg`" alt="Більше товарів даної категорії">
-        </a>
-        <br>
-        <a style="font-size: 25px" :href="category.url">
-          Більше товарів даної категорії
-        </a>
-      </div>
+    <div class="ct-linc__adn" v-if="category.productsCount < category.allProductsCount">
+      <a class="container__link" :href="category.url">
+        Всі товари
+        <svg class="container__svg">
+          <use href="/images/icons.svg#icon-strilka"></use>
+        </svg>
+      </a>
     </div>
   </div>
 </template>

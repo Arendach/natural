@@ -1,0 +1,132 @@
+.mobile__container__tel {
+  display: flex;
+  align-items: center;
+
+  position: sticky;
+
+  margin-bottom: 24px;
+}
+
+.menu-toggle {
+  min-height: 68px;
+  min-width: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  padding: 0;
+
+  background-color: $accent-color;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.menu-toggle__icon-menu {
+  width: 18px;
+  height: 18px;
+
+  fill: $white-font-color;
+}
+
+// .menu-toggle__icon-menu:hover,
+// .menu-toggle__icon-menu:focus {
+//   fill: var(--accent-color);
+// }
+
+.menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: $accent-color;
+  z-index: 999;
+
+  transform: translateX(100%);
+  transition: transform 250ms ease-in-out;
+}
+
+.menu-container.is-open {
+  transform: translateX(0);
+}
+
+.menu-container .menu-toggle {
+  background-color: #854102;
+}
+
+.menu-container {
+  overflow: scroll;
+}
+
+// .....................secondery__menu__basket.....................
+.secondery__menu__basket {
+  min-height: 68px;
+  min-width: 68px;
+
+  padding: 0;
+  margin: 0;
+
+  margin-left: auto;
+
+  background-color: $accent-color;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.secondery__menu__basket__icon {
+  width: 26px;
+  height: 25px;
+}
+
+// .........................mobile__container__logo.....................
+.mobile__container__logo {
+  width: 100%;
+  height: 68px;
+
+  text-align: center;
+
+  margin: 0;
+  padding-top: 9px;
+
+  background-color: $white-font-color;
+
+  @media screen and (min-width: 480px) {
+    padding-top: 3px;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.mobile__header-logo__link {
+  color: $primary-font-color;
+}
+
+.mobile__logo__text {
+  font-size: 25px;
+
+  @media screen and (min-width: 480px) {
+    font-size: 32px;
+  }
+}
+
+.mobile__logo__span {
+  font-size: 10px;
+
+  @media screen and (min-width: 480px) {
+    font-size: 12px;
+  }
+}

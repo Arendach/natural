@@ -1,0 +1,39 @@
+//
+
+.fourth__list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media screen and (min-width: 768px) {
+    display: block;
+  }
+}
+
+.fourth__item {
+  margin-right: 40px;
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin: 0;
+  }
+}
+
+.fourth__link {
+  fill: $secondary-font-color;
+  display: block;
+  width: 41px;
+  height: 39px;
+
+  &:hover,
+  &:focus {
+    fill: $white-font-color;
+  }
+}
+
+.fourth__social-icon {
+  width: 41px;
+  height: 39px;
+}

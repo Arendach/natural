@@ -1,0 +1,23 @@
+$background-body: #f3f3f3;
+$accent-color: #ff7a00; //колік лого
+$button-color: linear-gradient(180deg, #ff993c 0%, #ff7a00 100%); //колір кнопок
+$button-hover-color: linear-gradient(
+  180deg,
+  #c45f02 0%,
+  #ff7a00 100%
+); //колір кнопок ховер - фокус
+$current-btn: #ff891c;
+
+$cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+
+$secondary-font-color: #666666; // колір другорядного шрифта
+$primary-font-color: #000000; // колір основного шрифта
+$green-font-color: #2eb84c; // зелений
+$white-font-color: #ffffff; //білий
+$gray-font-color: #9b9b9b;
+$background-hed: #e9e9e9;
+
+$max-img-width: 555px;
+$max-img-height: 370px;
+
+$delivery-background: #e8e8e8;

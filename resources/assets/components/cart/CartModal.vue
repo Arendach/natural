@@ -1,27 +1,22 @@
 <template>
-  <MDBModal fullscreen="lg-down" size="xl" v-model="isOpened">
-    <MDBModalHeader @close="closeModal">
-      <MDBModalTitle id="exampleModalLabel">Корзина</MDBModalTitle>
-    </MDBModalHeader>
-    <MDBModalBody>
-      <ProductsList/>
-
-      <hr>
-
-      <div style="text-align: right">
-        Сума замовлення: <span style="font-weight: bolder" class="order_sum">{{ productsSum }} грн</span>
+  <div :class="{'is-hidden': !isOpened, modal: true}">
+    <div class="modal-window">
+      <div class="m-f">
+        <h2 class="modal-title">Кошик</h2>
+        <button class="modal-button" @click="closeModal">
+          <svg class="modal-svg">
+            <use href="/images/icons.svg#icon-close"></use>
+          </svg>
+        </button>
+        <ProductsList/>
       </div>
-
-      <hr>
-
       <OrderForm/>
-    </MDBModalBody>
-  </MDBModal>
+    </div>
+  </div>
 </template>
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
-import {MDBModal, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter} from 'mdb-vue-ui-kit'
 import ProductsList from "@/components/cart/ProductsList"
 import OrderForm from "@/components/cart/OrderForm"
 
@@ -29,11 +24,6 @@ export default {
   name: 'CartModal',
   components: {
     OrderForm,
-    MDBModal,
-    MDBModalHeader,
-    MDBModalTitle,
-    MDBModalBody,
-    MDBModalFooter,
     ProductsList,
   },
   computed: {

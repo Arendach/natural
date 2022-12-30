@@ -1,71 +1,59 @@
 <template>
-  <div class="feedback-open" @click="isOpened = true">
-    <i class="fa fa-phone"></i>
-    <span class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline"> Перетелефонуйте мені</span>
-  </div>
+  <button class="chat-button" @click="isOpened = true">
+    <svg class="feedback__phone-icon">
+      <use href="/images/icons.svg#icon-phone"></use>
+    </svg>
+  </button>
 
-  <MDBModal v-model="isOpened">
-    <MDBModalHeader @close="closeModal">
-      <MDBModalTitle id="exampleModalLabel">Перетелефонуйте мені</MDBModalTitle>
-    </MDBModalHeader>
-    <MDBModalBody>
-      <MDBRow tag="form" class="g-4 needs-validation" novalidate @submit.prevent="sendForm">
-        <MDBCol col="12">
-          <MDBInput
-            v-model="name"
-            minLength="2"
-            maxLength="255"
-            label="Ваше ім'я"
-            valid-feedback="Чудово! Поле заповнено вірно!"
-            invalid-feedback="Упс! Поле заповнено не вірно!"
-            validation-event="input"
-            required
-          />
-        </MDBCol>
-        <MDBCol col="12">
-          <MDBInput
-            v-model="phone"
-            minLength="10"
-            maxLength="10"
-            label="Ваш номер телефону"
-            required
-            valid-feedback="Чудово! Поле заповнено вірно!"
-            invalid-feedback="Упс! Поле заповнено не вірно!"
-            validation-event="input"
-            placeholder="0999999999"
-            pattern="^0[0-9]{9}$"
-          />
-        </MDBCol>
-        <MDBCol col="12">
-          <MDBTextarea
-            v-model="message"
-            label="Коментар до замовлення"
-            invalid-feedback="Упс! Поле заповнено не вірно!"
-            validation-event="input"
-          />
-        </MDBCol>
-        <MDBCol col="12">
-          <MDBBtn color="primary" type="submit">Залишити заявку</MDBBtn>
-        </MDBCol>
-      </MDBRow>
-    </MDBModalBody>
-  </MDBModal>
+  <div :class="{'is-hidden': !isOpened, modal: true}">
+    <div class="modal-window">
+      <div class="m-f">
+        <h2 class="modal-title">Перетелефонуйте мені</h2>
+        <button class="modal-button" @click="closeModal">
+          <svg class="modal-svg">
+            <use href="/images/icons.svg#icon-close"></use>
+          </svg>
+        </button>
+      </div>
+
+      <form @submit.prevent="sendForm">
+        <input
+          v-model="name"
+          minLength="2"
+          maxLength="255"
+          placeholder="Ваше ім'я"
+          required
+        />
+
+        <br>
+
+        <input
+          v-model="phone"
+          minLength="10"
+          maxLength="10"
+          placeholder="Ваш номер телефону"
+          required
+          pattern="^0[0-9]{9}$"
+        />
+
+        <br>
+
+        <textarea
+          v-model="message"
+          placeholder="Коментар до замовлення"
+        ></textarea>
+
+        <br>
+
+        <button type="submit">
+          Залишити заявку
+        </button>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
-import {
-  MDBModal,
-  MDBModalHeader,
-  MDBModalTitle,
-  MDBModalBody,
-  MDBModalFooter,
-  MDBBtn,
-  MDBRow,
-  MDBCol,
-  MDBInput,
-  MDBTextarea,
-} from 'mdb-vue-ui-kit'
-
 export default {
   name: 'Feedback',
   data() {
@@ -76,29 +64,11 @@ export default {
       message: '',
     }
   },
-  components: {
-    MDBModalBody,
-    MDBModalFooter,
-    MDBBtn,
-    MDBModalTitle,
-    MDBModalHeader,
-    MDBModal,
-    MDBRow,
-    MDBCol,
-    MDBInput,
-    MDBTextarea,
-  },
   methods: {
     closeModal() {
       this.isOpened = false
     },
     sendForm(event) {
-      event.target.classList.add('was-validated')
-
-      if (!event.target.checkValidity()) {
-        return
-      }
-
       fetch('/feedback/create', {
         method: 'post',
         headers: {

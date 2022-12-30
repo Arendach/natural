@@ -1,0 +1,32 @@
+.ct-linc__adn {
+  display: flex;
+  align-items: center;
+
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  @media screen and (min-width: 1200px) {
+    margin-top: 57px;
+  }
+}
+
+.container__link {
+  margin-left: 10px;
+
+  color: $secondary-font-color;
+
+  font-size: 16px;
+  line-height: 1;
+
+  @media screen and (min-width: 1200px) {
+    margin: 0;
+    margin-left: auto;
+  }
+}
+
+.container__svg {
+  width: 26px;
+  height: 10px;
+
+  // margin-left: 10px;
+}

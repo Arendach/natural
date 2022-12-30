@@ -1,0 +1,61 @@
+.thanks__hero-fon {
+  background-image: url("/images/thanks__hero.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.thanks__hero {
+  text-align: center;
+}
+
+.thanks-cnt__img {
+  padding: 38px 0;
+}
+
+.thanks__icon-img {
+  margin: 0 auto;
+
+  width: 102px;
+  height: 105px;
+
+  @media screen and (min-width: 768px) {
+    width: 138px;
+    height: 141px;
+  }
+}
+
+.thanks__hero__h1 {
+  margin-bottom: 20px;
+  font-size: 30px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 48px;
+  }
+}
+
+.thanks__hero__text {
+  margin-bottom: 40px;
+  font-size: 16px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 20px;
+  }
+}
+
+.thanks__hero__link {
+  color: $accent-color;
+  font-size: 20px;
+}
+
+.thanks__hero__icon-svg {
+  width: 26px;
+  height: 10px;
+
+  margin-right: 10px;
+}
+
+// .................. thank-you__section..................... //
+.thank-you__section {
+  padding: 34px 0 67px 0;
+}

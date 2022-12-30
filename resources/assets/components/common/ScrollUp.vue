@@ -1,11 +1,19 @@
 <template>
   <Transition>
-    <a
-      href="#"
-      class="scroll-up"
-      @click="scrollToTop"
-      v-if="isShow"
-    ></a>
+    <div class="scroll-up" @click="scrollToTop" v-if="isShow">
+      <svg class="scroll-up__sircle" viewBox="-2 -2 52 52">
+        <path
+          class="scroll-up__sircle-path"
+          d="
+    M24,0
+    a24,24 0 0,1 0,48
+    a24,24 0 0,1 0,-48"
+        />
+      </svg>
+      <svg class="scroll-up__icon">
+        <use href="/images/icons.svg#icon-halochke-top"></use>
+      </svg>
+    </div>
   </Transition>
 </template>
 

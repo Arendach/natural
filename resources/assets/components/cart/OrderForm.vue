@@ -1,60 +1,50 @@
 <template>
-  <MDBRow tag="form" class="g-4 needs-validation" novalidate @submit.prevent="sendForm">
-    <MDBCol col="6">
-      <MDBInput
-        minLength="2"
-        maxLength="255"
-        label="Ваше ім'я"
-        v-model="name"
-        valid-feedback="Чудово! Поле заповнено вірно!"
-        invalid-feedback="Упс! Поле заповнено не вірно!"
-        validation-event="input"
-        required
-      />
-    </MDBCol>
-    <MDBCol col="6">
-      <MDBInput
-        minLength="10"
-        maxLength="10"
-        label="Ваш номер телефону"
-        v-model="phone"
-        required
-        valid-feedback="Чудово! Поле заповнено вірно!"
-        invalid-feedback="Упс! Поле заповнено не вірно!"
-        validation-event="input"
-        placeholder="0999999999"
-        pattern="^0[0-9]{9}$"
-      />
-    </MDBCol>
-    <MDBCol col="12">
-      <MDBTextarea
-        label="Коментар до замовлення"
-        v-model="comment"
-        valid-feedback="Чудово! Поле заповнено вірно!"
-        invalid-feedback="Упс! Поле заповнено не вірно!"
-        validation-event="input"
-      />
-    </MDBCol>
-    <MDBCol col="12">
-      <MDBBtn color="primary" type="submit">Оформити замовлення</MDBBtn>
-    </MDBCol>
-  </MDBRow>
+  <form
+    @submit.prevent="sendForm"
+    class="modal-form"
+    name="signup_form"
+    autocomplete="on"
+    novalidate
+  >
+    <h2 class="modal-form__title">
+      Контактні дані
+    </h2>
+    <div class="form-containrt__label">
+      <label class="modal-form__label">
+        <input
+          v-model="name"
+          class="modai-form__input"
+          type="text"
+          placeholder="Ваше ім’я"
+        />
+      </label>
+      <label class="modal-form__label">
+        <input
+          v-model="phone"
+          class="modai-form__input"
+          type="text"
+          name="phone"
+          placeholder="Ваш номер телефону"
+        />
+      </label>
+    </div>
+    <textarea
+      v-model="comment"
+      class="modal-form__textarea"
+      placeholder="Коментар до замовлення"
+    ></textarea>
+    <button type="submit" class="button form-button__submit">
+      Оформити замовлення
+    </button>
+  </form>
 </template>
 
 <script>
-import {MDBInput, MDBRow, MDBTextarea, MDBContainer, MDBBtn, MDBCol} from 'mdb-vue-ui-kit'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'OrderForm',
-  components: {
-    MDBInput,
-    MDBRow,
-    MDBTextarea,
-    MDBContainer,
-    MDBBtn,
-    MDBCol,
-  },
+  components: {},
   data() {
     return {
       name: '',
@@ -65,12 +55,6 @@ export default {
   computed: mapGetters(['products']),
   methods: {
     sendForm(event) {
-      event.target.classList.add('was-validated')
-
-      if (!event.target.checkValidity()) {
-        return;
-      }
-
       let products = this.products.map(product => {
         return {
           product_id: product.id,
