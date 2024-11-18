@@ -14,22 +14,22 @@
         "intervention/image": "^2.7",
         "kudinovfedor/sms-club-json": "^1.0",
         "laravel-notification-channels/telegram": "*",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^11.0",
         "laravel/tinker": "^2.0",
         "mobizon/mobizon-php": "^2.0",
-        "orchid/platform": "^12.6",
+        "orchid/platform": "^14.0",
         "spatie/data-transfer-object": "^3.8",
         "spatie/image-optimizer": "^1.2",
-        "spatie/laravel-sitemap": "^6.2"
+        "spatie/laravel-sitemap": "^7.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
-        "barryvdh/laravel-ide-helper": "^2.6",
-        "spatie/laravel-ignition": "^1.0",
+        "barryvdh/laravel-ide-helper": "^3.2",
+        "spatie/laravel-ignition": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.0"
+        "nunomaduro/collision": "^8.1",
+        "phpunit/phpunit": "^10.0"
     },
     "config": {
         "optimize-autoloader": true,
